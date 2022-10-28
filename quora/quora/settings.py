@@ -230,7 +230,8 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 # Price for product update
-ONE_C_PRICE = os.path.join(BASE_DIR, "test_category/all.csv")
+# ONE_C_PRICE = os.path.join(BASE_DIR, "test_category/all.csv")
+ONE_C_PRICE = os.path.join(BASE_DIR, "..", "shared_data/all.csv")
 
 
 # Static files (CSS, JavaScript, Images)
