@@ -1,0 +1,822 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta name="robots" content="noindex, nofollow">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>
+			{% block page_title %}Раздел работы с Продуктом{% endblock %}
+		</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link
+			rel="icon"
+			type="image/png"
+			href="{% static 'images/favicon.png' %}"
+		/>
+		<!-- Font Awesome -->
+		<link
+			rel="stylesheet"
+			href="{% static 'plugins/fontawesome-free/css/all.min.css' %}"
+		/>
+		<!-- Ionicons -->
+		<link
+			rel="stylesheet"
+			href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
+		/>
+		<!-- summernote -->
+		<link
+			rel="stylesheet"
+			href="{% static 'plugins/summernote/summernote-bs4.css' %}"
+		/>
+		<link
+			rel="stylesheet"
+			href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}"
+		/>
+		<!-- CSS FOR Search Select Plugin -->
+		<!-- <link href="{% static 'css/select2.min.css' %}" rel="stylesheet" /> -->
+		<!-- use the latest vue-select release -->
+		<!-- <link
+			rel="stylesheet"
+			href="https://unpkg.com/vue-select@latest/dist/vue-select.css"
+		/> -->
+		<link
+			rel="stylesheet"
+			href="{% static 'css/vue-select.css' %}"
+		/>
+		<!-- Theme style -->
+		<link
+			rel="stylesheet"
+			href="{% static 'dist/css/adminlte.min.css' %}"
+		/>
+
+		<!-- Google Font: Source Sans Pro -->
+		<link
+			href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css"
+		/>
+		<link rel="stylesheet" href="{% static 'css/aaa.css' %}" />
+		<script>
+			function isEmpty() {
+				if (document.forms['srch'].search.value === '') {
+					alert('Fill out the form');
+					return false;
+				}
+				return true;
+			}
+		</script>
+	</head>
+
+	<body class="hold-transition sidebar-mini">
+		<div class="wrapper">
+			<!-- Navbar -->
+			<nav
+				id="show-session"
+				class="main-header navbar navbar-expand navbar-white navbar-light"
+			>
+				<!-- Left navbar links -->
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-widget="pushmenu"
+							data-enable-remember="True"
+							href="#"
+							><i class="fas fa-bars"></i
+						></a>
+					</li>
+					<li class="nav-item d-none d-sm-inline-block">
+						<a href="{% url 'home' %}" class="nav-link">Главная</a>
+					</li>
+					<li class="nav-item d-none d-sm-inline-block">
+						<a href="{% url 'documentation' %}" class="nav-link"
+							>Документация</a
+						>
+					</li>
+					<li class="nav-item d-none d-sm-inline-block">
+						<span
+							data-toggle="dummy-tooltip"
+							data-placement="right"
+							title="Задать начальные значения Модели, Двигателя, чтобы не подставлять каждый раз при создании товара"
+						>
+							{% if request.session.car %}
+							<a
+								href="{% url 'product-list' request.session.car.car_model_id %}"
+								class="nav-link font-weight-bold"
+							>
+								<span class="color-navy"
+									>{{ request.session.car.car_make }}
+									{{request.session.car.car_name|upper }}
+									<small class="badge badge-success"
+										><i class="fas fa-truck"></i>
+										{{count_model_product }}</small
+									></span
+								>
+							</a>
+							<span
+								id="car_m_id"
+								token="{{ request.session.car.car_model_id }}"
+							></span>
+							{% endif %}
+						</span>
+					</li>
+					<li class="nav-item d-none d-sm-inline-block">
+						<a
+							href="{% url 'product-new' %}"
+							class="nav-link"
+							data-toggle="tooltip"
+							data-placement="right"
+							title="Добавить Продукт"
+							><i class="far fa-plus-square add-product-icon"></i
+						></a>
+					</li>
+					<li class="nav-item dropdown">
+						<a
+							id="dropdownSubMenu1"
+							href="#"
+							data-toggle="dropdown"
+							aria-haspopup="true"
+							aria-expanded="false"
+							class="nav-link dropdown-toggle"
+							>Бренды</a
+						>
+						<ul
+							aria-labelledby="dropdownSubMenu1"
+							class="dropdown-menu border-0 shadow"
+						>
+							<li>
+								<a href="/suppliers/" class="dropdown-item"
+									>Добавить Бренды
+								</a>
+							</li>
+							<li class="dropdown-divider"></li>
+							<li>
+								<a
+									href="{% url 'main-view' %}"
+									class="dropdown-item"
+									>Все Бренды</a
+								>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<!-- SEARCH FORM -->
+				<form
+					class="form-inline ml-3"
+					action="/product/find/"
+					method="GET"
+					name="srch"
+				>
+					<div class="input-group input-group-sm">
+						<input
+							class="form-control form-control-navbar"
+							name="search"
+							type="search"
+							placeholder="1C ID or Part Number"
+							aria-label="Search"
+						/>
+						<div class="input-group-append">
+							<button
+								class="btn btn-navbar"
+								type="submit"
+								onclick="return isEmpty();"
+							>
+								<i class="fas fa-search"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+
+				<!-- Right navbar links -->
+				<ul class="navbar-nav ml-auto">
+					<!-- Messages Dropdown Menu -->
+					<li class="nav-item dropdown">
+						<a class="nav-link" data-toggle="dropdown" href="#">
+							<i class="far fa-comments"></i>
+							<span class="badge badge-danger navbar-badge"
+								>3</span
+							>
+						</a>
+						<div
+							class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+						>
+							<a href="#" class="dropdown-item">
+								<!-- Message Start -->
+								<div class="media">
+									<img
+										src="{% static 'dist/img/user1-128x128.jpg' %}"
+										alt="User Avatar"
+										class="img-size-50 mr-3 img-circle"
+									/>
+									<div class="media-body">
+										<h3 class="dropdown-item-title">
+											Brad Diesel
+											<span
+												class="float-right text-sm text-danger"
+												><i class="fas fa-star"></i
+											></span>
+										</h3>
+										<p class="text-sm">
+											Call me whenever you can...
+										</p>
+										<p class="text-sm text-muted">
+											<i class="far fa-clock mr-1"></i> 4
+											Hours Ago
+										</p>
+									</div>
+								</div>
+								<!-- Message End -->
+							</a>
+							<div class="dropdown-divider"></div>
+							<a href="#" class="dropdown-item">
+								<!-- Message Start -->
+								<div class="media">
+									<img
+										src="{% static 'dist/img/user8-128x128.jpg' %}"
+										alt="User Avatar"
+										class="img-size-50 img-circle mr-3"
+									/>
+									<div class="media-body">
+										<h3 class="dropdown-item-title">
+											John Pierce
+											<span
+												class="float-right text-sm text-muted"
+												><i class="fas fa-star"></i
+											></span>
+										</h3>
+										<p class="text-sm">
+											I got your message bro
+										</p>
+										<p class="text-sm text-muted">
+											<i class="far fa-clock mr-1"></i> 4
+											Hours Ago
+										</p>
+									</div>
+								</div>
+								<!-- Message End -->
+							</a>
+							<div class="dropdown-divider"></div>
+							<a href="#" class="dropdown-item">
+								<!-- Message Start -->
+								<div class="media">
+									<img
+										src="{% static 'dist/img/user3-128x128.jpg' %}"
+										alt="User Avatar"
+										class="img-size-50 img-circle mr-3"
+									/>
+									<div class="media-body">
+										<h3 class="dropdown-item-title">
+											Nora Silvester
+											<span
+												class="float-right text-sm text-warning"
+												><i class="fas fa-star"></i
+											></span>
+										</h3>
+										<p class="text-sm">
+											The subject goes here
+										</p>
+										<p class="text-sm text-muted">
+											<i class="far fa-clock mr-1"></i> 4
+											Hours Ago
+										</p>
+									</div>
+								</div>
+								<!-- Message End -->
+							</a>
+							<div class="dropdown-divider"></div>
+							<a href="#" class="dropdown-item dropdown-footer"
+								>See All Messages</a
+							>
+						</div>
+					</li>
+					<!-- Notifications Dropdown Menu -->
+					<li class="nav-item dropdown">
+						<a class="nav-link" data-toggle="dropdown" href="#">
+							<i class="far fa-bell"></i>
+							<span class="badge badge-warning navbar-badge"
+								>15</span
+							>
+						</a>
+						<div
+							class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+						>
+							<span class="dropdown-item dropdown-header"
+								>15 Notifications</span
+							>
+							<div class="dropdown-divider"></div>
+							<a href="#" class="dropdown-item">
+								<i class="fas fa-envelope mr-2"></i> 4 new
+								messages
+								<span class="float-right text-muted text-sm"
+									>3 mins</span
+								>
+							</a>
+							<div class="dropdown-divider"></div>
+							<a href="#" class="dropdown-item">
+								<i class="fas fa-users mr-2"></i> 8 friend
+								requests
+								<span class="float-right text-muted text-sm"
+									>12 hours</span
+								>
+							</a>
+							<div class="dropdown-divider"></div>
+							<a href="#" class="dropdown-item">
+								<i class="fas fa-file mr-2"></i> 3 new reports
+								<span class="float-right text-muted text-sm"
+									>2 days</span
+								>
+							</a>
+							<div class="dropdown-divider"></div>
+							<a href="#" class="dropdown-item dropdown-footer"
+								>See All Notifications</a
+							>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-widget="control-sidebar"
+							data-slide="true"
+							href="#"
+						>
+							<i class="fas fa-th-large"></i>
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<!-- /.navbar -->
+			<!-- Main Sidebar Container -->
+			<aside class="main-sidebar sidebar-dark-primary elevation-4">
+				<!-- Brand Logo -->
+				<a href="/" class="brand-link">
+					<img
+						src="{% static 'dist/img/AdminLTELogo.png' %}"
+						alt="AdminLTE Logo"
+						class="brand-image img-circle elevation-3"
+						style="opacity: 0.8"
+					/>
+					<span class="brand-text font-weight-light">AdminLTE 3</span>
+				</a>
+				<!-- Sidebar -->
+				<div class="sidebar">
+					<!-- Sidebar user (optional) -->
+					<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+						<div class="image">
+							<img
+								src="{% static 'dist/img/user2-160x160.jpg' %}"
+								class="img-circle elevation-2"
+								alt="User Image"
+							/>
+						</div>
+						<div class="info">
+							<a href="#" class="d-block"
+								>{{ request.user.username|upper }}</a
+							>
+						</div>
+					</div>
+					<!-- Sidebar Menu -->
+					<nav class="mt-2">
+						<ul
+							class="nav nav-pills nav-sidebar flex-column"
+							data-widget="treeview"
+							role="menu"
+							data-accordion="false"
+						>
+							<!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+							<li class="nav-item has-treeview">
+								<a href="#" class="nav-link">
+									<i class="nav-icon fas fa-truck-moving"></i>
+									<p>
+										Выбрать Машину
+										<i class="right fas fa-angle-left"></i>
+									</p>
+								</a>
+								<ul class="nav nav-treeview">
+									{% for make in car_makes %}
+									<li class="nav-item has-treeview">
+										<a href="#" class="nav-link">
+											<i class="nav-icon fas fa-copy"></i>
+											<p>
+												{{ make.name }}
+												<i
+													class="fas fa-angle-left right"
+												></i>
+												<span
+													class="badge badge-info right"
+													>{{ make.model_count}}</span
+												>
+											</p>
+										</a>
+										<ul class="nav nav-treeview">
+											{% for car in make.car_model.all %}
+											<li class="nav-item">
+												<a
+													href="{% url 'product-list' car.id %}"
+													class="nav-link"
+												>
+													<i
+														class="far fa-circle nav-icon"
+													></i>
+													<p>{{ car.name }}</p>
+													<span
+														class="badge badge-success right"
+														>{{car.part_count}}</span
+													>
+												</a>
+											</li>
+											{% endfor %}
+										</ul>
+									</li>
+									{% endfor %}
+								</ul>
+							</li>
+							<li class="nav-item">
+								<a
+									href="{% url 'product-main' %}"
+									class="nav-link"
+								>
+									<i
+										class="fas fa-dolly-flatbed nav-icon"
+									></i>
+									<p>
+										Товары {{request.session.car.car_name}}
+									</p>
+								</a>
+							</li>
+							<!-- Section for inline editing parts categorized by categories or alphabetically not decided yet -->
+							<li class="nav-item has-treeview">
+								<a href="#" class="nav-link">
+									<i class="fas fa-table nav-icon"></i>
+									<p>
+										Inline Edit
+										{{request.session.car.car_name}}
+										<i class="right fas fa-angle-left"></i>
+									</p>
+								</a>
+								<ul class="nav nav-treeview">
+									{% for cat in car_categories %}
+									<li class="nav-item has-treeview">
+										<a
+											href="{% url 'product-list-js' cat.id %}"
+											class="nav-link"
+										>
+											<i class="nav-icon fas fa-cog"></i>
+											<p>
+												{{ cat.name }}
+												<!-- <i class="fas fa-angle-left right"></i> -->
+												<span
+													class="badge badge-info right"
+													>{{ cat.id }}</span
+												>
+											</p>
+										</a>
+									</li>
+									{% endfor %}
+								</ul>
+							</li>
+							<li class="nav-item has-treeview">
+								<a href="#" class="nav-link">
+									<i class="nav-icon fas fa-chart-pie"></i>
+									<p>
+										Категоризация
+										<i class="right fas fa-angle-left"></i>
+									</p>
+								</a>
+								<ul class="nav nav-treeview">
+									<li class="nav-item">
+										<a
+											href="{% url 'categorizer' %}"
+											class="nav-link"
+										>
+											<i
+												class="fas fa-angle-right nav-icon"
+											></i>
+											<p>Группы</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a
+											href="{% url 'categorize-everything' %}"
+											class="nav-link"
+										>
+											<i
+												class="fas fa-angle-right nav-icon"
+											></i>
+											<p>Катег. все товары</p>
+										</a>
+									</li>
+									<li class="nav-item">
+                  <a href="/stats/" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Статистикa</p>
+                  </a>
+                </li>
+								</ul>
+							</li>
+							<li class="nav-item">
+								<a
+									href="/stats/"
+									class="nav-link"
+								>
+									<i
+										class="fas fa-dolly-flatbed nav-icon"
+									></i>
+									<p>
+                    <p>Статистикa</p>
+									</p>
+								</a>
+							</li>
+							<!-- <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-tree"></i>
+                <p>
+                  UI Elements
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="general.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>General</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="icons.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Icons</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="buttons.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Buttons</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="sliders.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Sliders</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="modals.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Modals & Alerts</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="navbar.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Navbar & Tabs</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="timeline.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Timeline</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="ribbons.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Ribbons</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-edit"></i>
+                <p>
+                  Forms
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="../forms/general.html" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>General Elements</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="../forms/advanced.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Advanced Elements</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="../forms/editors.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Editors</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="../forms/validation.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Validation</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>
+                  Tables
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="../tables/simple.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Simple Tables</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="../tables/data.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>DataTables</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="../tables/jsgrid.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>jsGrid</p>
+                  </a>
+                </li>
+              </ul>
+            </li> -->
+						</ul>
+					</nav>
+					<!-- /.sidebar-menu -->
+				</div>
+				<!-- /.sidebar -->
+			</aside>
+			{% block content %} {% endblock content %} {% block modal %}
+			<div class="modal fade" id="modal-default">
+				<div class="modal-dialog">
+					<form action="">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">
+									Задать Начальные Данные
+								</h4>
+								<button
+									type="button"
+									class="close"
+									data-dismiss="modal"
+									aria-label="Close"
+								>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-6">
+										<select
+											v-model="car_model"
+											class="form-control"
+										>
+											{% for car_model in car_models %}
+											<option
+												:value="{ id: '{{ car_model.id }}', name: '{{ car_model.name }}'}"
+											>
+												{{ car_model.name }}
+											</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="col-6">
+										<select
+											v-model="car_engine"
+											class="form-control"
+										>
+											{% for car_engine in car_engines %}
+											<option
+												:value="{ id: '{{ car_engine.id }}', name: '{{ car_engine.name }}'}"
+											>
+												{{ car_engine.name }}
+											</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer justify-content-between">
+								<button
+									type="button"
+									class="btn btn-default"
+									data-dismiss="modal"
+								>
+									Закрыть
+								</button>
+								<button
+									@click.prevent="sendSession"
+									type="button"
+									class="btn btn-primary"
+								>
+									Сохранить
+								</button>
+							</div>
+						</div>
+					</form>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			<!-- /.modal -->
+			{% endblock modal %}
+			<footer class="main-footer">
+				<div class="float-right d-none d-sm-block">
+					<b>Version</b> 3.0.2
+				</div>
+				<strong
+					>Copyright &copy; 2014-2019
+					<a href="http://adminlte.io">AdminLTE.io</a>.</strong
+				>
+				All rights reserved.
+			</footer>
+			<!-- Control Sidebar -->
+			<aside class="control-sidebar control-sidebar-dark">
+				<!-- Control sidebar content goes here -->
+			</aside>
+
+			<!-- /.control-sidebar -->
+		</div>
+		<!-- ./wrapper -->
+		<!-- jQuery -->
+		<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+		<!-- jQuery UI 1.11.4 -->
+		<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+		<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<!-- Bootstrap 4 -->
+		<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+		<!-- ChartJS -->
+		<script src="{% static 'plugins/chart.js/Chart.min.js' %}"></script>
+		<!-- Sparkline -->
+		<script src="{% static 'plugins/sparklines/sparkline.js' %}"></script>
+		<!-- daterangepicker -->
+		<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+		<script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
+		<!-- Tempusdominus Bootstrap 4 -->
+		<script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+		<!-- Summernote -->
+		<script src="{% static 'plugins/summernote/summernote-bs4.min.js' %}"></script>
+		<!-- overlayScrollbars -->
+		<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+		<!-- bs-custom-file-input -->
+		<script src="{% static 'plugins/bs-custom-file-input/bs-custom-file-input.min.js' %}"></script>
+
+		<!-- AdminLTE App -->
+		<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+		<!-- <script -->
+		<!-- 	src="https://cdnjs.cloudflare.com/ajax/libs/vue-toasted/1.1.28/toasted.min.js" -->
+		<!-- 	integrity="sha256-oteQyh0zjcfaBW+M1IYW05W0FDk2++tfv6D/WP0g6m4=" -->
+		<!-- 	crossorigin="anonymous" -->
+		<!-- ></script> -->
+		<!-- VUE JS -->
+		<script src="{% static 'js/vue.js' %}"></script>
+		<!--SELECT PLUGIN FOR SELECTION SEARCH-->
+		<!-- <script src="https://unpkg.com/vue-select@latest"></script> -->
+		<script src="{% static 'js/vue-select.min.js' %}"></script>
+		<!--SELECT PLUGIN FOR SELECTION SEARCH-->
+		<script src="{% static 'js/config.js' %}"></script>
+		<script src="{% static 'js/service_api.js' %}"></script>
+		<!-- Lastly add this package -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6.2/dist/index.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-sugar.css" rel="stylesheet">
+<!-- Init the plugin -->
+    <!-- <script> -->
+    <!--     Vue.use(VueToast); -->
+    <!-- </script> -->
+		<script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+
+
+		{% block js %} {% endblock js %}
+		<script type="text/javascript">
+			$(document).ready(function () {
+				bsCustomFileInput.init();
+			});
+			// Tooltip additon everywhere
+			$(function () {
+				$('[data-toggle="tooltip"]').tooltip();
+			});
+		</script>
+	</body>
+</html>

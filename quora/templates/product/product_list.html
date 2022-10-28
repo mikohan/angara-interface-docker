@@ -1,0 +1,139 @@
+{% extends 'product/base-forms.html' %}
+{% load static %}
+{% block page_title %}Список Товаров{% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Custom elements start here -->
+    <section class="content" id="app-list">
+        <div class="container-fluid">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <!-- Default box -->
+                    <div class="card card-primary collapsed-card">
+                        <div class="card-header card-header-filter">
+                            <small class="card-title badge badge-white mr-4"> 
+                                <span v-for="a in alphabet" class="card-title">
+                                    <span class="letter-loop" v-if="a.selected">{ a.name }</span>
+                                </span>
+                            </small>
+                            <small class="card-title badge badge-white mr-4 letter-loop">{{ object_list.count }}</small>
+                            <!-- <span class="card-title ml-5">Выбрать Номенклатуру по Начальной Букве Алфавита. Кликни на минус
+                                слева!</span> -->
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                    data-toggle="tooltip" title="Открыть фильтр">
+                                    <i class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"
+                                    data-toggle="tooltip" title="Удалить Фильтр">
+                                    <i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form action="." ref="form" method="get">
+                                <div class="form-group clearfix">
+                                    <div v-for="(char,i) in alphabet" class="icheck-primary d-inline">
+                                        <input type="checkbox" :id="'checkboxPrimary-' + i" v-model="char.selected"
+                                            :value="char.name" @click="check" name="alphabet">
+                                        <label class="mr-4 mb-3" :for="'checkboxPrimary-' + i ">
+                                            { char.name|capitalize }
+                                        </label>
+                                    </div>
+                                </div>
+                                <button @click="submit" class="btn btn-outline-primary btn-sm">Применить</button>
+                            </form>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                        </div>
+                        <!-- /.card-footer-->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body  p-2" style="height: 100%;">
+                            <table id="product-list" class="table table-head-fixed" data-toggle="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 3%;">ID</th>
+                                        <th style="width: 10%;">Img</th>
+                                        <th style="width: 4%;">Del</th>
+                                        <th data-sortable="true">Название</th>
+                                        <th style="width:10%;" data-sortable="true">Название2</th>
+                                        <th style="width: 7%;" data-sortable="true">Категория</th>
+                                        <th style="width: 7%;">Кат Номер</th>
+                                        <th style="width: 5%;">Бренд</th>
+                                        <th style="width: 3%;">1C ID</th>
+                                        <th style="width: 15%;">Модель</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for object in object_list %}
+                                    <tr>
+                                        <td><a href="{% url 'product-detail' object.pk %}">{{ object.pk }}</a></td>
+                                        <td>{% if object.have_photo %}
+                                            <i class="far fa-image product-image-icon"></i>
+                                            {% endif %}
+                                            {% if object.have_attribute %}
+                                            <i class="far fa-closed-captioning product-description-icon"></i>
+                                            {% endif %}
+                                            {% if object.have_description %}
+                                            <i class="fas fa-list-alt product-attribute-icon"></i>
+                                            {% endif %}
+                                            {% if object.have_video %}
+                                            <i class="fas fa-film product-video-icon"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td><i @click="deleteProduct('{{ object.id }}')"
+                                                class="far fa-trash-alt product-trash"></i></td>
+                                        <td>
+                                            <a href="{% url 'product-detail' object.pk %}">{{ object.name }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'product-detail' object.pk %}">{{ object.name2 }}</a>
+                                        </td>
+                                        <td>
+                                            {% for cat in object.category.all %}
+                                            <div class="model-bage-purple">{{ cat }}</div>
+                                            <br>{% endfor %}
+                                        </td>
+                                        <td>{{ object.cat_number }}</td>
+                                        <td>{{ object.brand|upper }}</td>
+                                        <td>{{ object.one_c_id }}</td>
+                                        <td>{% for mod in object.car_model.all %}
+                                            <span class="model-bage-green">{{ mod.name }}</span>
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.Custom elements ends here -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/product_list_vue.js' %}"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#product-list').DataTable({
+            "pageLength": 100,
+            "order": [[3, "asc"]]
+            //paging: false
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+product_notebook.txt
+product_notebook2.txt
+media
+logs
+#local_settings.py
+my.py
+.DS_Store
+#node_modules
+*.ipynb
+# local env files
+.env.local
+.env.*.local
+elastic_stuff.sh
+wsgi.py
+#all.csv
+purchase_price.csv
+el_log.txt
+
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

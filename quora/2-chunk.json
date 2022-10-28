@@ -1,0 +1,136 @@
+[
+  {
+    "offer": {
+      "shopSku": 2263,
+      "name": "\u041c\u0443\u0444\u0442\u0430 \u0441 \u0448\u0435\u0441\u0442\u0435\u0440\u043d\u0435\u0439 \u043a\u043f\u043f \u0425\u0415\u041d\u0414\u0410\u0419 \u041f\u041e\u0420\u0422\u0415\u04201 5-R \u041f\u0435\u0440\u0435\u0434\u0430\u0447\u0438",
+      "category": "\u041c\u0423\u0424\u0422\u0410",
+      "manufacturer": "MOBIS",
+      "manufacturerCountries": [
+        ""
+      ],
+      "weightDimensions": {
+        "length": 15.0,
+        "width": 24.0,
+        "height": 12.5,
+        "weight": 3.1
+      },
+      "urls": [
+        "https://partshub.ru/product/mufta-s-shesternej-kpp-5-r-peredachi-porter"
+      ],
+      "pictures": [
+        "https://angara77.ru/media/parts/433704A300/mobis/tmb/capture000230_Fo9PUBA.jpg",
+        "https://angara77.ru/media/parts/433704A300/mobis/tmb/capture000231_QGoVXsI.jpg",
+        "https://angara77.ru/media/parts/433704A300/mobis/tmb/capture000232_kbqpRbq.jpg",
+        "https://angara77.ru/media/parts/433704A300/mobis/tmb/capture000233_VW0Q3N2.jpg",
+        "https://angara77.ru/media/parts/433704A300/mobis/tmb/capture000234_TwaHhVH.jpg",
+        "https://angara77.ru/media/parts/433704A300/mobis/tmb/capture000235_Fjjsav8.jpg",
+        "https://angara77.ru/media/parts/433704A300/mobis/tmb/capture000236_kZe6jD5.jpg",
+        "https://angara77.ru/media/parts/433704A300/mobis/tmb/capture000237_HSPxunT.jpg",
+        "https://angara77.ru/media/parts/433704A300/mobis/tmb/capture000238_EOAzffZ.jpg"
+      ],
+      "vendor": "MOBIS",
+      "vendorCode": "433704A300",
+      "shelfLife": {
+        "timePeriod": 5,
+        "timeUnit": "YEAR"
+      },
+      "minShipment": 1,
+      "supplyScheduleDays": [
+        "MONDAY",
+        "TUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY",
+        "SATURDAY"
+      ],
+      "deliveryDurationDays": 1
+    }
+  },
+  {
+    "offer": {
+      "shopSku": 2241,
+      "name": "\u0421\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0430\u0442\u043e\u0440 \u043a\u043f\u043f \u0425\u0415\u041d\u0414\u0410\u0419 \u041f\u041e\u0420\u0422\u0415\u04201 5-R \u041f\u0435\u0440\u0435\u0434\u0430\u0447\u0438",
+      "category": "\u041a\u041e\u0420\u041e\u0411\u041a\u0410 \u041f\u0415\u0420\u0415\u0414\u0410\u0427",
+      "manufacturer": "MOBIS",
+      "manufacturerCountries": [
+        ""
+      ],
+      "weightDimensions": {
+        "length": 15.0,
+        "width": 24.0,
+        "height": 12.5,
+        "weight": 3.1
+      },
+      "urls": [
+        "https://partshub.ru/product/sinhronizator-kpp-5-r-peredachi-porter"
+      ],
+      "pictures": [
+        "https://angara77.ru/media/parts/433854A300/mobis/tmb/capture000240_kxnoUmT.jpg",
+        "https://angara77.ru/media/parts/433854A300/mobis/tmb/capture000241_RBB9LDA.jpg",
+        "https://angara77.ru/media/parts/433854A300/mobis/tmb/capture000242_1V3lGd9.jpg",
+        "https://angara77.ru/media/parts/433854A300/mobis/tmb/capture000243_BUUPVC3.jpg",
+        "https://angara77.ru/media/parts/433854A300/mobis/tmb/capture000244_mIy5vkZ.jpg"
+      ],
+      "vendor": "MOBIS",
+      "vendorCode": "433854A300",
+      "shelfLife": {
+        "timePeriod": 5,
+        "timeUnit": "YEAR"
+      },
+      "minShipment": 1,
+      "supplyScheduleDays": [
+        "MONDAY",
+        "TUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY",
+        "SATURDAY"
+      ],
+      "deliveryDurationDays": 1
+    }
+  },
+  {
+    "offer": {
+      "shopSku": 11544,
+      "name": "\u0424\u0438\u043a\u0441\u0430\u0442\u043e\u0440 \u0446\u0438\u043b\u0438\u043d\u0434\u0440\u0430 \u0441\u0446\u0435\u043f\u043b\u0435\u043d\u0438\u044f \u0425\u0415\u041d\u0414\u0410\u0419 \u041f\u041e\u0420\u0422\u0415\u04202 \u0413\u043b\u0430\u0432\u043d\u043e\u0433\u043e \u0412 \u041f\u0435\u0434\u0430\u043b\u0438",
+      "category": "\u041f\u0415\u0414\u0410\u041b\u042c \u0421\u0426\u0415\u041f\u041b\u0415\u041d\u0418\u042f",
+      "manufacturer": "MOBIS",
+      "manufacturerCountries": [
+        ""
+      ],
+      "weightDimensions": {
+        "length": 15.0,
+        "width": 24.0,
+        "height": 12.5,
+        "weight": 3.1
+      },
+      "urls": [
+        "https://partshub.ru/product/fiksator-tsilindra-stseplenija-glavnogo-v-pedali-porter2-porter"
+      ],
+      "pictures": [
+        "https://angara77.ru/media/parts/585811C000/mobis/tmb/capture000246_4ulNab0.jpg",
+        "https://angara77.ru/media/parts/585811C000/mobis/tmb/capture000247_v0phE9O.jpg",
+        "https://angara77.ru/media/parts/585811C000/mobis/tmb/capture000248_COwwBtT.jpg",
+        "https://angara77.ru/media/parts/585811C000/mobis/tmb/capture000249_Gx3OH9C.jpg",
+        "https://angara77.ru/media/parts/585811C000/mobis/tmb/capture000250_dmZQGSz.jpg",
+        "https://angara77.ru/media/parts/585811C000/mobis/tmb/capture000251_wjPlVAl.jpg"
+      ],
+      "vendor": "MOBIS",
+      "vendorCode": "585811C000",
+      "shelfLife": {
+        "timePeriod": 5,
+        "timeUnit": "YEAR"
+      },
+      "minShipment": 1,
+      "supplyScheduleDays": [
+        "MONDAY",
+        "TUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY",
+        "SATURDAY"
+      ],
+      "deliveryDurationDays": 1
+    }
+  }
+]

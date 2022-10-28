@@ -1,0 +1,42 @@
+{% extends 'product/base-forms.html' %}
+{% load static %}
+{% block page_title %}Документация Интерфейса{% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Custom elements start here -->
+    <section class="content" id="app-list">
+        <div class="container-fluid">
+            <div class="row pt-2">
+                <div class="col-6">
+                    <div class="documentation-container">
+                        {% for doc in documentation %}
+                        <div class="card documentation-item">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-text-width"></i>
+                                    {{ doc.title }}
+                                </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col-sm-4">{{ doc.title }}</dt>
+                                    <dd class="col-sm-8">{{ doc.text|safe }}</dd>
+                                </dl>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.Custom elements ends here -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock content %}
+{% block js %}
+
+{% endblock %}

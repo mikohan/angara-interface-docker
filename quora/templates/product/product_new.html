@@ -1,0 +1,269 @@
+{% extends 'product/base-forms.html' %}
+{% load static %}
+{% block page_title %}Новый Товар{% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Custom elements start here -->
+    <section class="content" id="app_new">
+        <div class="container-fluid">
+            <div class="row pt-2">
+                <div class="col-md-6">
+                    <form action="." id="basic">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title bold">{ part.name }
+                                    <span v-for="car in value">{ car.name } </span>
+                                    { part.name2 }</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="productName">Название Зачасти</label>
+                                        <input v-model="part.name" class="form-control form-control-sm" type="text"
+                                            id="productName" placeholder="Наименование" value="{{ object.name }}">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="productName2">Название Зачасти</label>
+                                        <input v-model="part.name2" class="form-control form-control-sm" type="text"
+                                            id="productName2" placeholder="Наименование" value="{{ object.name2 }}">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="productId">ID запчасти
+                                            #<span id="mainId" token="{{ object.id }}">{{ part.id }}</span></label>
+                                        <input v-model="part.id" class="form-control form-control-sm" type="text"
+                                            value={{ object.id }} id="productId" placeholder="ID" disabled>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="productUnit">Ед Изм</label>
+                                        <v-select label="unit_name" :options="selectUnitList" v-model="selectedUnit">
+                                        </v-select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="make">Марка Машины</label>
+                                        <input v-model="sessionCarMake" class="form-control form-control-sm" type="text"
+                                            id="make" placeholder="Марка" disabled>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="productCatNumber">Каталожный номер</label>
+                                        <input v-model="part.cat_number" class="form-control form-control-sm"
+                                            type="text" id="productCatNumber" placeholder="Каталожный номер">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="productGroup">Группа запчасти</label>
+                                        <input v-model="part.category" class="form-control form-control-sm" type="text"
+                                            id="productGroup" placeholder="Группа" disabled>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="productBrand">Бренд</label>
+                                        <v-select label="brand" :options="selectBrandList" v-model="selectedBrand">
+                                        </v-select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="make">Dummy</label>
+                                        <input v-model="sessionCarMake" class="form-control form-control-sm" type="text"
+                                            id="make" placeholder="Dummy" disabled>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="1cid">1C id</label>
+                                        <input v-model="part.one_c_id" class="form-control form-control-sm" type="text"
+                                            id="1cid" placeholder="1C ID">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div>
+                                            <label class="typo__label">Выбрать Двигатель</label>
+                                            <vue-multiselect v-model="valueEngine" :options="selectCarEngineList"
+                                                :multiple="true" :close-on-select="false" :clear-on-select="false"
+                                                :preserve-search="true" placeholder="Выбрать Двигатели" label="name"
+                                                track-by="name" :preselect-first="false">
+                                                <template slot="selection" slot-scope="{ values, search, isOpen }"><span
+                                                        class="multiselect__single"
+                                                        v-if="values.length &amp;&amp; !isOpen">{ values.length }
+                                                        options selected</span></template>
+                                            </vue-multiselect>
+                                            <!-- <pre class="language-json"><code>{ value  }</code></pre> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div>
+                                            <label class="typo__label">Применимость Модель</label>
+                                            <vue-multiselect v-model="value" :options="selectCarModelList"
+                                                :multiple="true" :close-on-select="false" :clear-on-select="false"
+                                                :preserve-search="true" placeholder="Выбрать Модели" label="name"
+                                                track-by="name" :preselect-first="false">
+                                                <template slot="selection" slot-scope="{ values, search, isOpen }"><span
+                                                        class="multiselect__single"
+                                                        v-if="values.length &amp;&amp; !isOpen">{ values.length }
+                                                        options selected</span></template>
+                                            </vue-multiselect>
+                                            <!-- <pre class="language-json"><code>{ value  }</code></pre> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <div class="custom-control custom-switch">
+                                            <input v-model="part.active" type="checkbox" class="custom-control-input"
+                                                id="isActive" checked>
+                                            <label class="custom-control-label" for="isActive">Активный</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <button @click.prevent="createPart"
+                                            class="btn btn-success btn-xs float-right">Сохранить</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-primary card-tabs">
+                        <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="custom-tabs-one-tab-photo" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="custom-tabs-one-home-tab-photo" data-toggle="pill"
+                                        href="#custom-tabs-one-photo" role="tab"
+                                        aria-controls="custom-tabs-one-home-photo" aria-selected="true">Some Content</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill"
+                                        href="#custom-tabs-one-settings" role="tab"
+                                        aria-controls="custom-tabs-one-settings" aria-selected="false">Настойки</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-one-tabContent-photo">
+                                <div class="tab-pane fade show active" id="custom-tabs-one-photo" role="tabpanel"
+                                    aria-labelledby="custom-tabs-one-photo-tab">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                            Lorem Ipsum has been the industry's standard dummy text ever since the
+                                            1500s, when an unknown printer took a galley of type and scrambled it to
+                                            make a type specimen book. It has survived not only five centuries, but also
+                                            the leap into electronic typesetting, remaining essentially unchanged. It
+                                            was popularised in the 1960s with the release of Letraset sheets containing
+                                            Lorem Ipsum passages, and more recently with desktop publishing software
+                                            like Aldus PageMaker including versions of Lorem Ipsum.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel"
+                                    aria-labelledby="custom-tabs-one-settings-tab">
+                                    <div class="mb-3">
+                                        <form action="">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Select</label>
+                                                        <select class="form-control form-control-sm">
+                                                            <option>option 1</option>
+                                                            <option>option 2</option>
+                                                            <option>option 3</option>
+                                                            <option>option 4</option>
+                                                            <option>option 5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Select</label>
+                                                        <select class="form-control form-control-sm">
+                                                            <option>option 1</option>
+                                                            <option>option 2</option>
+                                                            <option>option 3</option>
+                                                            <option>option 4</option>
+                                                            <option>option 5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Select</label>
+                                                        <select class="form-control form-control-sm">
+                                                            <option>option 1</option>
+                                                            <option>option 2</option>
+                                                            <option>option 3</option>
+                                                            <option>option 4</option>
+                                                            <option>option 5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Select</label>
+                                                        <select class="form-control form-control-sm">
+                                                            <option>option 1</option>
+                                                            <option>option 2</option>
+                                                            <option>option 3</option>
+                                                            <option>option 4</option>
+                                                            <option>option 5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <button class="btn btn-primary btn-sm">Применить</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.Custom elements ends here -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock content %}
+{% block js %}
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!-- <script src="{% static 'dist/js/pages/dashboard.js' %}"></script> -->
+<!-- AdminLTE for demo purposes -->
+<!-- <script src="{% static 'dist/js/demo.js' %}"></script> -->
+<script>
+    $(function () {
+        // Summernote
+        $('.textarea').summernote()
+    });
+</script>
+<script>
+    let selectedSession = {
+        car_model: "{{ request.session.car_model }}",
+        car_engine: "{{ request.session.car_engine }}"
+    }
+</script>
+<script src="{% static 'js/product_detail_jquery.js' %}"></script>
+<script src="{% static 'js/product_new_vue.js' %}"></script>
+{% endblock %}

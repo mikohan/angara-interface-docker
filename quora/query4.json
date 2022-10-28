@@ -1,0 +1,120 @@
+{
+	"items": [
+		{
+			"barcode": "string",
+			"category_id": 93446776,
+			"color_image": "string",
+			"depth": 20,
+			"dimension_unit": "cm",
+			"height": 20,
+			"image_group_id": "string",
+			"images": [
+				"http://localhost:8000/media/parts/1362564080NG/kmk_glass/tmb/IMG_7471_ducato_FvTewko.JPG",
+				"http://localhost:8000/media/parts/1362564080NG/kmk_glass/tmb/IMG_7472_ducato_SgfwnmU.JPG",
+				"http://localhost:8000/media/parts/1362564080NG/kmk_glass/tmb/IMG_7473_ducato_cLLdJW0.JPG"
+			],
+			"primary_image": "http://localhost:8000/media/parts/1362564080NG/kmk_glass/tmb/IMG_7470_ducato_sIdV3Dl.JPG",
+			"name": "Test product from API",
+			"offer_id": "1",
+			"old_price": "300",
+			"premium_price": "200",
+			"price": "250",
+			"vat": "0",
+			"weight": 2,
+			"weight_unit": "kg",
+			"width": 20,
+			"attributes": [
+				{
+					"complex_id": 0,
+					"id": 85,
+					"values": [
+						{
+							"dictionary_value_id": 0,
+							"value": "Angara"
+						}
+					]
+				},
+				{
+					"complex_id": 0,
+					"id": 9048,
+					"values": [
+						{
+							"dictionary_value_id": 0,
+							"value": "Lamborgini"
+						}
+					]
+				},
+				{
+					"complex_id": 0,
+					"id": 7236,
+					"values": [
+						{
+							"dictionary_value_id": 0,
+							"value": "1245545"
+						}
+					]
+				},
+				{
+					"complex_id": 0,
+					"id": 8229,
+					"values": [
+						{
+							"dictionary_value_id": 0,
+							"value": "\u041a\u0440\u044b\u043b\u043e \u0430\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u044c\u043d\u043e\u0435"
+						}
+					]
+				},
+				{
+					"complex_id": 0,
+					"id": 4074,
+					"values": [
+						{
+							"dictionary_value_id": 0,
+							"value": "PFbomAhc51M"
+						}
+					]
+				},
+				{
+					"complex_id": 0,
+					"id": 4191,
+					"values": [
+						{
+							"dictionary_value_id": 0,
+							"value": "Description goes here blah blah blag"
+						}
+					]
+				},
+				{
+					"complex_id": 0,
+					"id": 7204,
+					"values": [
+						{
+							"dictionary_value_id": 0,
+							"value": "RolsRoys"
+						}
+					]
+				},
+				{
+					"complex_id": 0,
+					"id": 7212,
+					"values": [
+						{
+							"dictionary_value_id": 0,
+							"value": "Model Auto"
+						}
+					]
+				},
+				{
+					"complex_id": 0,
+					"id": 9782,
+					"values": [
+						{
+							"dictionary_value_id": 0,
+							"value": "\u041d\u0435 \u043e\u043f\u0430\u0441\u0435\u043d"
+						}
+					]
+				}
+			]
+		}
+	]
+}

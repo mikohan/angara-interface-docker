@@ -1,0 +1,127 @@
+{% extends 'product/base-forms.html' %}
+{% load static %}
+{% block page_title %}Список Товаров{% endblock %}
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Custom elements start here -->
+    <section class="content" id="app-list">
+        <div class="container-fluid">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="my-infobox">
+                                <span class="my-info-box-icon"><i class="far fa-thumbs-up"></i></span>
+                                <span class="my-info-box-text">Товаров в категории</span>
+                                <span class="my-info-box-number">{ listEditCount }</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body" style="height: 100%;">
+                        <div v-if="productsLoading">
+                            <div class="load-spiner">
+                                <img src="{% static 'images/load_primary.gif' %}" alt="">
+                            </div>
+                        </div>
+                        <table id="product-list2" class="table table-head-fixed" data-toggle="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Del</th>
+                                    <th data-sortable="true">Название</th>
+                                    <th data-sortable="true">Модель</th>
+                                    <th>Кат Номер</th>
+                                    <th>Бренд</th>
+                                    <th>1C ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(product, i) in part">
+                                    <td><a :href="'/product/' + product.id + '/'">{ product.id }</a></td>
+                                    <td><i @click="deleteProduct(product.id)"
+                                            class="far fa-trash-alt product-trash"></i></td>
+                                    <td>
+                                        <input @keyup.enter="saveProduct(product.id, i)" v-model="part[i].name"
+                                            class="form-control form-control-sm input-list-first" type="text"
+                                            :id="'productName-' + product.id" placeholder="Наименование">
+                                        <br>
+                                        <input @keyup.enter="saveProduct(product.id, i)" v-model="part[i].name2"
+                                            class="form-control form-control-sm input-list-second" type="text"
+                                            :id="'productName2-' + product.id" placeholder="Параметры">
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <vue-multiselect v-model="part[i].car_model" :options="selectCarModelList"
+                                                :multiple="true" :close-on-select="false" :clear-on-select="false"
+                                                :preserve-search="true" placeholder="Выбрать Модели" label="name"
+                                                track-by="id" :preselect-first="false">
+                                                <template slot="selection" slot-scope="{ values, search, isOpen }"><span
+                                                        class="multiselect__single"
+                                                        v-if="values.length &amp;&amp; !isOpen">{ values.length }
+                                                        options selected</span></template>
+                                            </vue-multiselect>
+                                            <!-- <pre class="language-json"><code>{ value  }</code></pre> -->
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input @keyup.enter="saveProduct(product.id, i)"
+                                                    v-model="part[i].cat_number" class="form-control form-control-sm"
+                                                    type="text" :id="'productCatNumber-' + product.id"
+                                                    placeholder="Катал Номер">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 category-tags">
+                                                <span class="category-tag" v-for="cat in product.category">{ cat.name }</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <vue-multiselect @select="saveProduct(product.id, i)"
+                                                v-model="part[i].brand" :options="options" placeholder="--------"
+                                                label="brand" track-by="id">
+
+                                            </vue-multiselect>
+                                        </div>
+                                    <td>{ product.one_c_id }</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+</div>
+</section>
+<!-- /.Custom elements ends here -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/product_list_js_vue.js' %}"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#product-list').DataTable({
+            "pageLength": 100,
+            "order": [[1, "asc"]]
+            //paging: false
+        });
+    });
+</script>
+{% endblock %}

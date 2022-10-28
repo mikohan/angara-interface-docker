@@ -1,0 +1,25 @@
+Заказ номер {{ data.number }}
+На сумму {{ data.total }}
+
+==================================================
+
+Детали заказа:
+
+{% for product in products %}
+{{ product.name }} {{ product.one_c_id }} цена {{ product.price }}
+{% endfor %}
+
+
+
+==================================================
+Город: {{ data.city }}
+Адрес: {{ data.address }}
+Телефон: {{ data.phone }}
+Email: {{ data.email }}
+
+==================================================
+Спасибо что остаетесь с нами!
+Телефон для связи: {{ data.company_phone }}
+Email для связи: {{ data.company_email }}
+Сайт: {{ data.company_website }}
+

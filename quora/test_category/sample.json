@@ -1,0 +1,113 @@
+{
+  "from": "0",
+  "size": "20",
+  "sort": [
+    {
+      "has_photo": {
+        "order": "desc"
+      }
+    },
+    {
+      "stocks.price": {
+        "order": "desc"
+      }
+    }
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "must": [
+              {
+                "bool": {
+                  "should": [
+                    {
+                      "match": {
+                        "cat_number": {
+                          "query": "545324b000",
+                          "analyzer": "standard"
+                        }
+                      }
+                    },
+                    {
+                      "match": {
+                        "oem_number": {
+                          "query": "545324b000",
+                          "analyzer": "standard"
+                        }
+                      }
+                    },
+                    {
+                      "match": {
+                        "one_c_id": {
+                          "query": "545324b000",
+                          "analyzer": "standard"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "bool": {
+            "must": []
+          }
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "categories": {
+      "terms": {
+        "field": "category.id",
+        "size": 2000
+      }
+    },
+    "brands": {
+      "terms": {
+        "field": "brand.name.keyword"
+      }
+    },
+    "engines": {
+      "terms": {
+        "field": "engine.name.keyword"
+      }
+    },
+    "car_models": {
+      "terms": {
+        "field": "model.name.keyword"
+      }
+    },
+    "bages": {
+      "terms": {
+        "field": "bages.keyword",
+        "size": 5
+      }
+    },
+    "condition": {
+      "terms": {
+        "field": "condition.keyword",
+        "size": 5
+      }
+    },
+    "min_price": {
+      "min": {
+        "field": "stocks.price"
+      }
+    },
+    "max_price": {
+      "max": {
+        "field": "stocks.price"
+      }
+    },
+    "has_photo": {
+      "terms": {
+        "field": "has_photo"
+      }
+    }
+  }
+}

@@ -1,0 +1,538 @@
+{% extends 'product/base-forms.html' %}
+{% load static %}
+{% block page_title %}Карточка Товара{% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Custom elements start here -->
+    <section class="content" id="app">
+        <div class="container-fluid">
+            <!-- Info boxes -->
+            <!-- /.row -->
+            <div class="row pt-2">
+                <div class="col-md-6">
+                    <form action="." id="basic">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title bold">{ part.name }
+                                    <span v-for="car in value">{ car.name } </span>
+                                    { part.name2 }</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="productName">Название Зачасти</label>
+                                        <input v-model="part.name"
+                                            class="form-control form-control-sm product-main-name" type="text"
+                                            id="productName" placeholder="Наименование" value="{{ object.name }}">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="productName2">Название Параметры</label>
+                                        <input v-model="part.name2"
+                                            class="form-control form-control-sm product-main-name" type="text"
+                                            id="productName2" placeholder="Название Параметры"
+                                            value="{{ object.name2 }}">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="productId">ID запчасти
+                                            #<span id="mainId" token="{{ object.id }}">{{ part.id }}</span></label>
+                                        <input v-model="part.id" class="form-control form-control-sm" type="text"
+                                            id="productId" placeholder="ID" value={{ object.id }} disabled>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="productCatNumber">OEM номер</label>
+                                        <input v-model="part.oem_number" class="form-control form-control-sm"
+                                            type="text" id="productOemNumber" placeholder="Oem номер">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="make">Марка Машины</label>
+                                        <input class="form-control form-control-sm" type="text" id="car_make_id"
+                                            token="{{ object.car_model.name }}"
+                                            placeholder="{{ object.name.model_product }}" disabled>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="productCatNumber">Каталожный номер</label>
+                                        <input v-model="part.cat_number" class="form-control form-control-sm"
+                                            type="text" id="productCatNumber" placeholder="Каталожный номер">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="productGroup">Группа запчасти</label>
+                                        <!-- <input v-model="part.category" class="form-control form-control-sm" type="text" -->
+                                        <!--     id="productGroup" placeholder="Группа" disabled> -->
+                                        <div v-for="(category, id) in part.category" :key="id">{category.name}<span>, </span></div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="productBrand">Бренд</label>
+                                        <v-select label="brand" :options="selectBrandList" v-model="selectedBrand">
+                                        </v-select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="engine">DUMMY</label>
+                                        <input v-model="part.category" class="form-control form-control-sm" type="text"
+                                            id="productDummy" placeholder="Dummy" disabled>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="1cid">1C id</label>
+                                        <input v-model="part.one_c_id" class="form-control form-control-sm" type="text"
+                                            id="1cid" placeholder="1C ID">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div>
+                                            <label class="typo__label">Выбрать Двигатель</label>
+                                            <vue-multiselect v-model="valueEngine" :options="selectCarEngineList"
+                                                :multiple="true" :close-on-select="false" :clear-on-select="false"
+                                                :preserve-search="true" placeholder="Выбрать Двигатели" label="name"
+                                                track-by="name" :preselect-first="false">
+                                                <template slot="selection" slot-scope="{ values, search, isOpen }"><span
+                                                        class="multiselect__single"
+                                                        v-if="values.length &amp;&amp; !isOpen">{ values.length }
+                                                        options selected</span></template>
+                                            </vue-multiselect>
+                                            <!-- <pre class="language-json"><code>{ value  }</code></pre> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div>
+                                            <label class="typo__label">Применимость Модель</label>
+                                            <vue-multiselect v-model="value" :options="selectCarModelList"
+                                                :multiple="true" :close-on-select="false" :clear-on-select="false"
+                                                :preserve-search="true" placeholder="Выбрать Модели" label="name"
+                                                track-by="name" :preselect-first="false">
+                                                <template slot="selection" slot-scope="{ values, search, isOpen }"><span
+                                                        class="multiselect__single"
+                                                        v-if="values.length &amp;&amp; !isOpen">{ values.length }
+                                                        options selected</span></template>
+                                            </vue-multiselect>
+                                            <!-- <pre class="language-json"><code>{ value  }</code></pre> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <div class="custom-control custom-switch">
+                                            <input v-model="part.active" type="checkbox" class="custom-control-input"
+                                                id="isActive" checked>
+                                            <label class="custom-control-label" for="isActive">Активный</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <button @click.prevent="saveAll"
+                                            class="btn btn-primary btn-xs float-right">Сохранить</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-primary card-tabs">
+                        <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="custom-tabs-one-tab-photo" role="tablist">
+                                <li class="nav-item">
+                                    <a @click="getImage('{{ object.id }}')" class="nav-link active"
+                                        id="custom-tabs-one-home-tab-photo" data-toggle="pill"
+                                        href="#custom-tabs-one-photo" role="tab"
+                                        aria-controls="custom-tabs-one-home-photo" aria-selected="true">Фото и Видео</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill"
+                                        href="#custom-tabs-one-settings" role="tab"
+                                        aria-controls="custom-tabs-one-settings" aria-selected="false">Загрузить
+                                        Фото</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a @click="getVideo('{{ object.id }}')" class="nav-link"
+                                        id="custom-tabs-one-video-tab" data-toggle="pill" href="#custom-tabs-one-video"
+                                        role="tab" aria-controls="custom-tabs-one-settings"
+                                        aria-selected="false">Видео</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-one-tabContent-photo">
+                                <div class="tab-pane fade show active" id="custom-tabs-one-photo" role="tabpanel"
+                                    aria-labelledby="custom-tabs-one-photo-tab">
+                                    <div class="row bottom-border">
+                                        <div class="product-image-container">
+                                            <div v-for="(prod_img,i) in productImages" class="product-image-item">
+                                                <img :src="prod_img.img150" class="product-image-image">
+                                                <div class="row product-image-footer">
+                                                    <div class="col-6">
+                                                        <!-- <div class="custom-control custom-radio">
+                                                            <input :checked="i == mainImage"
+                                                                class="custom-control-input" type="radio"
+                                                                :id="'customRadio1-' + i " name="customRadio"
+                                                                :value="prod_img.id"
+                                                                v-model="main_img"
+                                                                @change="saveMainImg(prod_img.id)">
+                                                            <label :for="'customRadio1-' + i"
+                                                                class="custom-control-label">Главная{ main_img }</label>
+                                                        </div> -->
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <a @click.prevent="deleteImage(prod_img.id)" href="#"
+                                                            class=""><span class="float-right"
+                                                                style="font-size: 1rem; color: #f012be;"><i
+                                                                    class="far fa-trash-alt"></i></span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-2">
+                                        <div class="col-12">
+                                            <!-- <div class="product-video-container">
+                                                <div class="embed-responsive embed-responsive-16by9 product-video-item">
+                                                    <iframe class="embed-responsive-item"
+                                                        src="https://www.youtube.com/embed/jJR2r7w3l5o" frameborder="0"
+                                                        allowfullscreen=""></iframe>
+                                                </div>
+                                            </div> -->
+                                            <ul class="product-videos-ul">
+                                                <li v-for="(video, j) in productVideos">
+                                                    <span @click="deleteVideo(video.id)" class="product-video-icon">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </span>
+                                                    <span class="product-video-thumbnails">
+                                                        <a :href="video.url" class="product-video-a"
+                                                            target="_blank"><img
+                                                                :src="'https://img.youtube.com/vi/' + video.youtube_id + '/default.jpg'"></a>
+                                                    </span>
+                                                    <span class="product-video-url">
+                                                        <a :href="video.url"> { video.url }</a>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel"
+                                    aria-labelledby="custom-tabs-one-settings-tab">
+                                    <div class="mb-3">
+                                        <form enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputFile">Выбрать файл</label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input @change="onFileSelected" type="file" multiple
+                                                                    class="custom-file-input" id="exampleInputFile">
+                                                                <label class="custom-file-label"
+                                                                    for="exampleInputFile">Фото</label>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <span @click.prevent="uploadImage"
+                                                                    class="input-group-text product-upload-button"
+                                                                    id="">Сохранить</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-if="imageLoading">
+                                                        <div class="load-spiner">
+                                                            <img src="{% static 'images/load_primary.gif' %}" alt="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-one-video" role="tabpanel"
+                                    aria-labelledby="custom-tabs-one-video-tab">
+                                    <ul class="product-videos-ul">
+                                        <li v-for="(video, j) in productVideos">
+                                            <span @click="deleteVideo(video.id)" class="product-video-icon">
+                                                <i class="far fa-trash-alt"></i>
+                                            </span>
+                                            <span class="product-video-thumbnails">
+                                                <a :href="video.url" class="product-video-a" target="_blank"><img
+                                                        :src="'https://img.youtube.com/vi/' + video.youtube_id + '/default.jpg'"></a>
+                                            </span>
+                                            <span class="product-video-url">
+                                                { video.url }
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <div>
+                                        <div class="input-group input-group-sm mb-2">
+                                            <input v-model="productVideoUrl" type="text"
+                                                class="form-control product-vieo-input">
+                                            <span class="input-group-append">
+                                                <button @click.prevent="addVideo" type="button"
+                                                    class="btn btn-info btn-flat">Сохранить!</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary card-tabs">
+                        <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill"
+                                        href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home"
+                                        aria-selected="true">Атрибуты</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
+                                        href="#custom-tabs-one-profile" role="tab"
+                                        aria-controls="custom-tabs-one-profile" aria-selected="false">Описание</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a @click.prevent="getProductList" class="nav-link"
+                                        id="custom-tabs-one-profile-tab2" data-toggle="pill"
+                                        href="#custom-tabs-one-profile2" role="tab"
+                                        aria-controls="custom-tabs-one-profile2" aria-selected="false">Сопутсвующие</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-one-profile-tab3" data-toggle="pill"
+                                        href="#custom-tabs-one-profile3" role="tab"
+                                        aria-controls="custom-tabs-one-profile3" aria-selected="false">Кроссы</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-one-tabContent">
+                                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
+                                    aria-labelledby="custom-tabs-one-home-tab">
+                                    <div :key="i" v-for="(attribute, i) in attributeList" class="row mb-1">
+                                        <div class="col-6">
+                                            <input v-model="attribute.attribute_text_name" class="form-control form-control-sm"
+                                                type="text" placeholder="Название атрибута" :id="'attribute_name' + i"
+
+                                                >
+                                        </div>
+                                        <div class="col-5">
+                                            <input v-model="attribute.attribute_value" class="form-control form-control-sm"
+                                                type="text" placeholder="Пусто" :id="'arrt_val' + i"
+                                                >
+                                        </div>
+                                            <div class="col-1">
+                                                <a @click.prevent="deleteAttribute(attribute.id)" href="#"
+                                                    class=""><span class="float-right"
+                                                    style="font-size: 1rem; color: #f012be;"><i
+                                                    class="far fa-trash-alt"></i></span>
+                                                </a>
+                                            </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-6">
+                                            <button @click.prevent="addAttributeName = !addAttributeName"
+                                                class="btn btn-outline-warning btn-sm">Добавить Атрибут</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button @click.prevent="saveAll"
+                                                class="btn btn-outline-primary btn-sm float-right">Сохранить</button>
+                                        </div>
+                                    </div>
+                                    <div v-if="addAttributeName" class="row mt-2">
+                                        <div class="col-6">
+                                            <input v-model="addAtrName" class="form-control form-control-sm" type="text"
+                                                placeholder="Название атрибута">
+                                        </div>
+                                        <div class="col-6">
+                                            <button @click.prevent="addAttrNameMethod"
+                                                class="btn btn-outline-success btn-sm">Сохранить</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
+                                    aria-labelledby="custom-tabs-one-profile-tab">
+                                    <div class="mb-3">
+                                        <ckeditor :editor="editor" v-model="editorData" :config="editorConfig">
+                                        </ckeditor>
+                                        <div class="description-save-button">
+                                            <button v-if="addDescriptionButton" @click.prevent="saveAll"
+                                                class="btn btn-outline-primary btn-sm float-right">Сохранить</button>
+                                            <button v-else @click.prevent="addDescription"
+                                                class="btn btn-outline-primary btn-sm float-right">Добавить</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-one-profile2" role="tabpanel"
+                                    aria-labelledby="custom-tabs-one-profile-tab2">
+                                    <div v-if="loadRelated" class="mb-3">
+                                        <h4>Загружается .... Подождите ...</h4>
+                                        <div class="load-spiner">
+                                            <img src="{% static 'images/load_primary.gif' %}" alt="">
+                                        </div>
+                                    </div>
+                                    <div v-else class="mb-3">
+                                        <div class="row pb-2">
+                                            <div class="col-5">
+                                                <input class="form-control" v-model="searchRelated" type="text">
+                                            </div>
+                                            <div class="col-2"></div>
+                                            <div class="col-5">
+                                                <div class="description-save-button">
+                                                    <button @click.prevent="saveAll"
+                                                        class="btn btn-outline-primary btn-sm float-right">Сопут
+                                                        Сохранить</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <select class="form-control" size="20" name="list1" id="list1">
+                                                    <option :value="item.id" v-for="item in filteredList">{ item.name +
+                                                        ' | ' + item.cat_number }
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-2">
+                                                <button class="btn btn-primary btn-block mb-2"
+                                                    @click="oneToRight">&raquo;</button>
+                                                <button class="btn btn-primary btn-block mb-2"
+                                                    @click="oneToLeft">&laquo;</button>
+                                            </div>
+                                            <div class="col-5">
+                                                <select class="form-control" size="20" name="list2" id="list2">
+                                                    <option :value="item2.id" v-for="item2 in list2">{ item2.name }
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-one-profile3" role="tabpanel"
+                                    aria-labelledby="custom-tabs-one-profile-tab3">
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <div v-for="(cross,i) in part.product_cross" class="input-group mb-3">
+                                                    <div @click="deleteCross(i)" class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"><i
+                                                                class="far fa-trash-alt product-trash"></i></span>
+                                                    </div>
+                                                    <input class="form-control mb-1"
+                                                        v-model="part.product_cross[i].cross" type="text"
+                                                        aria-describedby="basic-addon1">
+                                                </div>
+                                                <div class="description-save-button">
+                                                    <button @click.prevent="addCrossRow"
+                                                        class="btn btn-outline-warning btn-xs">Добавить Кросс</button>
+                                                    <button @click.prevent="editPart"
+                                                        class="btn btn-primary btn-xs float-right">Сохранить</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <!-- Custom tabs (Charts with tabs)-->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                Sales
+                            </h3>
+                            <div class="card-tools">
+                                <ul class="nav nav-pills ml-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content p-0">
+                                <!-- Morris chart - Sales -->
+                                <div class="chart tab-pane active" id="revenue-chart"
+                                    style="position: relative; height: 300px;">
+                                    <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                </div>
+                                <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+                                    <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                </div>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.Custom elements ends here -->
+</div>
+
+
+
+{% endblock content %}
+{% block js %}
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{% static 'dist/js/pages/dashboard.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'dist/js/demo.js' %}"></script>
+
+<script>
+  var main_host =  "{{ MAIN_HOST }}";
+</script>
+
+<script>
+    let car_make_id = 'hyundai'//"{{ request.session.car_make_id }}";
+    $(function () {
+        // Summernote
+        $('.textarea').summernote()
+    });
+    // In your Javascript (external .js resource or <script> tag)
+    // $(document).ready(function () {
+    //     $('.js-example-basic-single').select2({
+    //         tags: true.name.name
+    //     });
+    // });
+</script>
+
+<script src="{% static 'js/axios.min.js' %}"></script>
+<script src="{% static 'js/service_api.js' %}"></script>
+<script src="{% static 'js/product_detail_jquery.js' %}"></script>
+<script src="{% static 'node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js' %}"></script>
+<script src="{% static 'node_modules/@ckeditor/ckeditor5-vue/dist/ckeditor.js' %}"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap4-duallistbox/4.0.1/jquery.bootstrap-duallistbox.js"></script>
+<script>
+    var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
+</script>
+<!-- <script src="{% static 'node_modules/dual-listbox-vue/dist/dual-listbox.umd.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'node_modules/dual-listbox-vue/dist/dual-listbox.css' %}"> -->
+
+<script src="{% static 'js/product_detail_vue.js' %}"></script>
+{% endblock %}

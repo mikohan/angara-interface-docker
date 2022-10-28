@@ -1,0 +1,17 @@
+{% load static %}
+{% include 'meta.html' %}
+
+<body>
+    {% include 'header_brands.html' %}
+    {% block content %}
+    {% endblock %}
+    <script src="{% static 'js/jquery-3.4.1.slim.min.js' %}">
+    </script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% block vuejs %}
+    {% endblock vuejs %}
+
+</body>
+
+
+</html>
