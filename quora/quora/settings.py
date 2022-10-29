@@ -14,11 +14,12 @@ DEBUG = False
 if os.environ.get('DJANGO_DEBUG') and os.environ.get('DJANGO_DEBUG') == 'True':
     DEBUG = True
 
-MAIN_HOST = 'localhost:8080'
-
-MAIN_HOST_SSL = 'http'
 if os.environ.get('MAIN_HOST_SSL'):
     MAIN_HOST_SSL = 'https'
+
+SITE_URL = f"{MAIN_HOST_SSL}://{MAIN_HOST}"
+
+FRONTEND_URL = "https://partshub.ru"
 
 if os.environ.get('MAIN_HOST'):
     MAIN_HOST = os.environ.get('MAIN_HOST')
@@ -245,7 +246,10 @@ STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "media"),
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "..", "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+if WHERE_IS_MEDIA_ROOT == 'local':
+    MEDIA_ROOT = os.path.join(BASE_DIR, "..", "media")
+
 
 MEDIA_URL = "/media/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static_collection")
