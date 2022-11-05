@@ -257,7 +257,7 @@ def send_json(request):
     #         print("File not writes")
 
     r = requests.post(
-        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        settings.ELASTIC_URL,
         headers={"Content-Type": "application/json"},
         data=data,
     )
@@ -315,7 +315,7 @@ def get_all_cars(request):
     }
 
     r = requests.get(
-        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        settings.ELASTIC_URL,
         headers={"Content-Type": "application/json"},
         data=json.dumps(query),
     )
@@ -466,7 +466,7 @@ def get_products_for_yandex_market_xml(request):
     )
 
     r = requests.get(
-        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        settings.ELASTIC_URL,
         headers={"Content-Type": "application/json"},
         data=data,
     )
@@ -478,37 +478,42 @@ def get_products_for_yandex_market_xml(request):
 
 
 def get_products_for_angara_procenka(request, search):
-    search = "57300"
 
-    data = json.dumps(
-        {
-            "size": 10000,
-            "_source": [
-                "one_c_id",
-                "cat_number",
-                "slug",
-                "name",
-                "model.name",
-                "model.make.name",
-                "has_photo_or_old",
-                "price",
-                "category.name",
-                "category.id",
-                "category.parent",
-                "images.image",
-                "brand.name",
-                "cat_number",
-                "description",
-                "stocks",
-            ],
-            "query": {
-                {"wildcard": {"cat_number": {"value": search}}},
-            },
-        }
-    )
+    data = {
+        "size": 10000,
+        "_source": [
+            "one_c_id",
+            "cat_number",
+            "slug",
+            "name",
+            "model.name",
+            "model.make.name",
+            "has_photo_or_old",
+            "price",
+            "category.name",
+            "category.id",
+            "category.parent",
+            "images.image",
+            "brand.name",
+            "cat_number",
+            "description",
+            "stocks",
+        ],
+        "query": {
+            "wildcard": {
+                "cat_number": {
+                    "value": f"{search}*",
+                    "boost": 1.0,
+                    "rewrite": "constant_score",
+                }
+            }
+        },
+    }
+    # data = {"query": {"match_all": {}}}
+    data = json.dumps(data)
 
     r = requests.get(
-        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        settings.ELASTIC_URL,
         headers={"Content-Type": "application/json"},
         data=data,
     )

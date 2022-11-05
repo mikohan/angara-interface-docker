@@ -262,7 +262,7 @@ def send_json(request):
         # If query has car model and slug
 
     r = requests.get(
-        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        settings.ELASTIC_URL,
         headers={"Content-Type": "application/json"},
         data=data,
     )
@@ -282,14 +282,14 @@ def send_json(request):
                 print("key does not exists: ", category["key"])
             rebuilt_cats.append(
                 {
-                    "id": category["key"], #type: ignore
-                    "count": category["doc_count"], #type: ignore
-                    "id": new_cat.id, #type: ignore
-                    "name": new_cat.name, #type: ignore
-                    "parent": new_cat.parent_id, #type: ignore
-                    "layout": new_cat.layout, #type: ignore
-                    "type": new_cat.type, #type: ignore
-                    "slug": new_cat.slug, #type: ignore
+                    "id": category["key"],  # type: ignore
+                    "count": category["doc_count"],  # type: ignore
+                    "id": new_cat.id,  # type: ignore
+                    "name": new_cat.name,  # type: ignore
+                    "parent": new_cat.parent_id,  # type: ignore
+                    "layout": new_cat.layout,  # type: ignore
+                    "type": new_cat.type,  # type: ignore
+                    "slug": new_cat.slug,  # type: ignore
                 }
             )
         response["aggregations"]["categories"]["buckets"] = rebuilt_cats
@@ -349,7 +349,7 @@ def autocomplete(request):
             }
 
     r = requests.get(
-        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        settings.ELASTIC_URL,
         headers={"Content-Type": "application/json"},
         data=json.dumps(query),
     )
@@ -378,7 +378,7 @@ def findNumbers(request):
     }
 
     r = requests.get(
-        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        settings.ELASTIC_URL,
         headers={"Content-Type": "application/json"},
         data=json.dumps(query),
     )

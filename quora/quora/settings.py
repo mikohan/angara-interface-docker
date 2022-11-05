@@ -5,7 +5,10 @@ from dotenv import load_dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# load_dotenv(os.path.join(BASE_DIR, ".env"))
 load_dotenv(os.path.join(BASE_DIR, ".env.dev"))
+
 mimetypes.add_type("text/css", ".css", True)
 
 
@@ -22,9 +25,10 @@ WHERE_IS_MEDIA_ROOT = os.getenv("WHERE_IS_MEDIA_ROOT")
 FRONTEND_URL = f"{MAIN_HOST_SCHEME}://{os.getenv('FRONTEND_URL')}"
 SITE_URL = f"{MAIN_HOST_SCHEME}://{MAIN_HOST}"
 ELASTIC_HOST = os.getenv("ELASTIC_HOST")
-ELASTIC_URL = ELASTIC_HOST
-
+ELASTIC_PORT = os.getenv("ELASTIC_PORT")
 ELASTIC_INDEX = os.getenv("ELASTIC_INDEX")
+ELASTIC_URL = f"http://{ELASTIC_HOST}:{ELASTIC_PORT}/{ELASTIC_INDEX}/_search"
+
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 

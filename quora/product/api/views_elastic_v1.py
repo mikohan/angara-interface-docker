@@ -43,7 +43,7 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
     priceMax = 10000000
     sort_price = request.GET.get("sort_price") or "desc"
 
-    print(request.GET.getlist('brand'))
+    print(request.GET.getlist("brand"))
 
     if price:
         spl = price.split("-")
@@ -51,13 +51,13 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
         priceMax = spl[1]
 
     for item in request.GET.items():
-        
+
         if str(item[0]) == "page_from" or str(item[0]) == "page_size":
             continue
         if item[0] == "sort_price":
             continue
         # must here
-        
+
         second = item[1].split(",")
         if item[0] == "model" or item[0] == "category" and category:
             query.append(
@@ -243,7 +243,7 @@ def send_json(request):
         # if query has q == all and cat slug
 
     r = requests.get(
-        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        settings.ELASTIC_URL,
         headers={"Content-Type": "application/json"},
         data=data,
     )
@@ -411,7 +411,7 @@ def send_json_filters(request):
             # if query has q == all and cat slug
 
     r = requests.get(
-        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        settings.ELASTIC_URL,
         headers={"Content-Type": "application/json"},
         data=data,
     )
