@@ -478,6 +478,7 @@ def get_products_for_yandex_market_xml(request):
 
 
 def get_products_for_angara_procenka(request, search):
+    search = "57300"
 
     data = json.dumps(
         {
@@ -501,11 +502,7 @@ def get_products_for_angara_procenka(request, search):
                 "stocks",
             ],
             "query": {
-                "bool": {
-                    "should": [
-                        {"wildcard": {"cat_number": search}},
-                    ]
-                }
+                {"wildcard": {"cat_number": {"value": search}}},
             },
         }
     )

@@ -1,7 +1,9 @@
 import os
-from .local_settings import *
 from datetime import timedelta
 import mimetypes
+from dotenv import load_dotenv
+
+load_dotenv()
 mimetypes.add_type("text/css", ".css", True)
 
 
@@ -9,32 +11,28 @@ mimetypes.add_type("text/css", ".css", True)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-DEBUG = False
+DEBUG = os.getenv("DEBUG")  # False
 
-if os.environ.get('DJANGO_DEBUG') and os.environ.get('DJANGO_DEBUG') == 'True':
-    DEBUG = True
+# if os.environ.get("DJANGO_DEBUG") and os.environ.get("DJANGO_DEBUG") == "True":
+#     DEBUG = True
 
-if os.environ.get('MAIN_HOST_SSL'):
-    MAIN_HOST_SSL = 'https'
+# Env vars for self site backend
+SECRET_KEY = os.getenv("SECRET_KEY")
+MAIN_HOST_SCHEME = os.environ.get("MAIN_HOST_SSL")
+MAIN_HOST = os.environ.get("MAIN_HOST")
 
-SITE_URL = f"{MAIN_HOST_SSL}://{MAIN_HOST}"
+WHERE_IS_MEDIA_ROOT = os.getenv("WHERE_IS_MEDIA_ROOT")
 
-FRONTEND_URL = "https://partshub.ru"
+FRONTEND_URL = f"{MAIN_HOST_SCHEME}://{os.getenv('FRONTEND_URL')}"
+SITE_URL = f"{MAIN_HOST_SCHEME}://{MAIN_HOST}"
+ELASTIC_HOST = os.getenv("ELASTIC_HOST")
+ELASTIC_URL = ELASTIC_HOST
 
-if os.environ.get('MAIN_HOST'):
-    MAIN_HOST = os.environ.get('MAIN_HOST')
+ELASTIC_INDEX = os.getenv("ELASTIC_INDEX")
 
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-if os.environ.get('ELASTIC_HOST'):
-    ELASTIC_URL = f"{os.environ.get('ELASTIC_HOST')}:9200"
-else:
-    ELASTIC_URL = "localhost:9200"
-
-ELASTIC_INDEX = "prod_all"
-
-
-SECRET_KEY = SECRET_KEY
-VUE_DEV = VUE_DEV
+VUE_DEV = os.getenv("VUE_DEV")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -46,22 +44,22 @@ FROM_EMAIL_ADMIN = f"PartsHub Admin <mikohan1@gmail.com>"
 
 PRODUCT_DESCRIPTION = "Материлы изготовления: сталь, алюминий, резина, стекло, пластик. Произведена на высокоточном оборудовании, с соблюдением всех допусков."
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "192.168.0.107",
-    "192.168.0.109",
-    "192.168.0.24",
-    "46.151.155.97",
-    "dnobaka.ru",
-    "localhost",
-    "partshub.tk",
-    "angara77.ru",
-    "0.0.0.0",
-    "angara77.ml",
-    "angara77.ga",
-    "django",
-]
-
+# ALLOWED_HOSTS = [
+#     "127.0.0.1",
+#     "192.168.0.107",
+#     "192.168.0.109",
+#     "192.168.0.24",
+#     "46.151.155.97",
+#     "dnobaka.ru",
+#     "localhost",
+#     "partshub.tk",
+#     "angara77.ru",
+#     "0.0.0.0",
+#     "angara77.ml",
+#     "angara77.ga",
+#     "django",
+# ]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 # Default images folder for blog posts and categories
 BLOG_IMAGES = "blog/images"
@@ -232,7 +230,7 @@ LOGOUT_REDIRECT_URL = "/"
 
 # Price for product update
 # ONE_C_PRICE = os.path.join(BASE_DIR, "test_category/all.csv")
-ONE_C_PRICE = os.path.join(BASE_DIR,  "shared_data/all.csv")
+ONE_C_PRICE = os.path.join(BASE_DIR, "shared_data/all.csv")
 
 
 # Static files (CSS, JavaScript, Images)
@@ -247,7 +245,7 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-if WHERE_IS_MEDIA_ROOT == 'local':
+if WHERE_IS_MEDIA_ROOT == "local":
     MEDIA_ROOT = os.path.join(BASE_DIR, "..", "media")
 
 
@@ -303,8 +301,7 @@ COMPANY_INFO = {
     "email": "angara77@gmail.com",
     "website": FRONTEND_URL,
 }
-EMAIL_MANAGERS = ["angara99@gmail.com",
-                  "angara77@gmail.com", "yellkalolka@gmail.com"]
+EMAIL_MANAGERS = ["angara99@gmail.com", "angara77@gmail.com", "yellkalolka@gmail.com"]
 
 # Email for technical information mostly from crontab
 EMAIL_ADMINS = ["angara99@gmail.com", "yellkalolka@gmail.com"]
@@ -347,3 +344,69 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_LIFETIME": timedelta(minutes=300),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=10),
 }
+
+### From local settings
+
+
+YM_CREDENTIALS = {
+    "PARTSHUB": {
+        "OAUTH": os.getenv("YANDEX_MARKET_PARTSHUB_TOKEN"),
+        "CAMPAIGN_ID": os.getenv("YANDEX_MARKET_PARTSHUB_ID"),
+    },
+    "ANGARA": {
+        "OAUTH": os.getenv("YANDEX_MARKET_ANGARA_TOKEN"),
+        "CAMPAIGN_ID": os.getenv("YANDEX_MARKET_ANGARA_ID"),
+    },
+}
+
+
+OAUTH_OZON = os.getenv("OAUTH_OZON")
+OZON_ID = os.getenv("OZON_ID")
+
+
+YANDEX_MARKET_TOKEN = os.getenv("YANDEX_MARKET_TOKEN")
+
+
+PHOTO_FOLDER_FOR_CHECK = "/home/manhee/SMB/0_ANGARA_PRO_PHOTO/all_photo"
+PHOTO_FOLDER_FOR_AGES = "/home/manhee/Pictures/parts"
+
+VUE_DEV = os.getenv("VUE_DEV")
+
+
+EMAIL_USER = os.getenv("EMAIL_USER")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+
+
+SOCIAL_SECRET = os.getenv("SOCIAL_SECRET")
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+
+CURRENCY_LATEST_URL = os.getenv("CURRENCY_LATEST_URL")
+
+
+# ONE_C_PRICE = "/home/manhee/backend/quora/test_category/all.csv"
+
+CRONJOBS = [
+    (
+        "5 3 * * *",
+        "product.syncronizators.products_sync.sync_products",
+    ),
+    (
+        "0 4 * * *",
+        "test_category.elastic_insert.do_all_two",
+    ),
+    (
+        "0 5 * * *",
+        "test_category.elastic_stuff2.do_insert",
+    ),
+    (
+        "50 4 * * *",
+        "product.syncronizators.prices_sync.update_prices",
+    ),
+    (
+        "*/20 * * * *",
+        "orders.check_site.check",
+    ),
+]

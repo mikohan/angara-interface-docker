@@ -202,6 +202,11 @@ urlpatterns = [
     path("jsontest_v2", send_json2, name="send_json2"),
     path("jsontest-angara77", jsontest_angara, name="send_json_angara77"),
     path("jsontest-angara77-all-cars", get_all_cars, name="get_all_cars"),
+    path(
+        "jsontest-get-products-for-angara-procenka/<str:search>/",
+        get_products_for_angara_procenka,
+        name="get-products-for-angara-procenka",
+    ),
     path("searchapi", search_api, name="searchapi"),
     path("autocomplete", autocomplete, name="autocomplete"),
     path("findnumber", findNumbers, name="findNumbers"),
