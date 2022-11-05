@@ -138,7 +138,7 @@ def send_json(request):
         """
         Check if search by make slug exists
         """
-        page_size = request.GET.get("page_size") or 100 
+        page_size = request.GET.get("page_size") or 100
 
         page_from = request.GET.get("page_from") or 0
         search = request.GET.get("search") or None
@@ -219,7 +219,7 @@ def send_json(request):
         # If cat and not models
         elif cat and not model and not make:
             print("In CATEGORY statement", page_from, page_size)
-            
+
             data = json.dumps(
                 {
                     "from": page_from,
@@ -411,7 +411,7 @@ def get_all_cars(request):
                 "year_from": car.year_from,
                 "year_to": car.year_to,
                 "active": car.active,
-                "image": settings.SITE_URL +  car.image.url if car.image else None,
+                "image": settings.SITE_URL + car.image.url if car.image else None,
                 "model_hostory": car.model_history,
                 "model_liquids": car.model_liquids,
                 "model_to": car.model_to,
@@ -430,47 +430,84 @@ def get_all_cars(request):
     return JsonResponse(new_cars, safe=False)
 
 
-
 def get_products_for_yandex_market_xml(request):
 
-    data = json.dumps({
-                "size": 10000,
-              "_source": [
-                  "one_c_id",
+    data = json.dumps(
+        {
+            "size": 10000,
+            "_source": [
+                "one_c_id",
                 "cat_number",
-                  "slug",
+                "slug",
                 "name",
                 "name2",
-                  "model.name",
-                  "model.make.name",
+                "model.name",
+                "model.make.name",
                 "has_photo_or_old",
                 "price",
-                "category.name", 
-                "category.id", 
+                "category.name",
+                "category.id",
                 "category.parent",
                 "images.image",
                 "brand.name",
                 "cat_number",
                 "description",
-                "stocks"
-              ],
-              "query": {
+                "stocks",
+            ],
+            "query": {
                 "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "has_photo_or_old": "true"
-                      }
-                    },
-                    {
-                      "exists": {
-                        "field": "price"
-                      }
-                    }
-                  ]
+                    "must": [
+                        {"match": {"has_photo_or_old": "true"}},
+                        {"exists": {"field": "price"}},
+                    ]
                 }
-              }
-            }
+            },
+        }
+    )
+
+    r = requests.get(
+        f"http://{settings.ELASTIC_URL}/{settings.ELASTIC_INDEX}/_search",
+        headers={"Content-Type": "application/json"},
+        data=data,
+    )
+
+    if r.status_code != 200:
+        raise ValueError(f"Request cannot be proceeded Status code is: {r.status_code}")
+    response = r.json()
+    return JsonResponse(response, safe=False)
+
+
+def get_products_for_angara_procenka(request, search):
+
+    data = json.dumps(
+        {
+            "size": 10000,
+            "_source": [
+                "one_c_id",
+                "cat_number",
+                "slug",
+                "name",
+                "model.name",
+                "model.make.name",
+                "has_photo_or_old",
+                "price",
+                "category.name",
+                "category.id",
+                "category.parent",
+                "images.image",
+                "brand.name",
+                "cat_number",
+                "description",
+                "stocks",
+            ],
+            "query": {
+                "bool": {
+                    "should": [
+                        {"wildcard": {"cat_number": search}},
+                    ]
+                }
+            },
+        }
     )
 
     r = requests.get(

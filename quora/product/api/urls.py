@@ -21,6 +21,7 @@ from product.api.views_elastic_for_angara import (
     get_products_for_yandex_market_xml,
     send_json as jsontest_angara,
     get_all_cars,
+    get_products_for_angara_procenka,
 )
 from product.api.views_elastic_v2 import send_json as send_json2
 from product.api.views_elastic_related_api import similar, latest, byTag, byCarCount
