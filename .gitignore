@@ -4,6 +4,7 @@ product_notebook2.txt
 logs
 venv
 docker-compose*
+.env*
 
 .DS_Store
 node_modules

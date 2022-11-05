@@ -3,22 +3,18 @@ from datetime import timedelta
 import mimetypes
 from dotenv import load_dotenv
 
-load_dotenv()
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(BASE_DIR, ".env.dev"))
 mimetypes.add_type("text/css", ".css", True)
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEBUG = os.getenv("DEBUG")
 
-
-DEBUG = os.getenv("DEBUG")  # False
-
-# if os.environ.get("DJANGO_DEBUG") and os.environ.get("DJANGO_DEBUG") == "True":
-#     DEBUG = True
 
 # Env vars for self site backend
 SECRET_KEY = os.getenv("SECRET_KEY")
-MAIN_HOST_SCHEME = os.environ.get("MAIN_HOST_SSL")
+MAIN_HOST_SCHEME = os.environ.get("MAIN_HOST_SCHEME")
 MAIN_HOST = os.environ.get("MAIN_HOST")
 
 WHERE_IS_MEDIA_ROOT = os.getenv("WHERE_IS_MEDIA_ROOT")
@@ -169,10 +165,7 @@ WSGI_APPLICATION = "quora.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if os.environ.get("MYSQL_HOST"):
-    HOST = os.environ.get("MYSQL_HOST")
-else:
-    HOST = "127.0.0.1"
+HOST = os.environ.get("MYSQL_HOST")
 
 
 DATABASES = {
@@ -311,8 +304,8 @@ EMAIL_REPLY_TO = ["angara77@gmail.com"]
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = EMAIL_USER
-EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
+EMAIL_HOST_USER = os.getenv("EMAIL_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
 
 SWAGGER_SETTINGS = {
