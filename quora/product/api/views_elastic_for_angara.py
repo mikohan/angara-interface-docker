@@ -549,6 +549,7 @@ def get_products_for_angara_procenka(request, search):
                 "cat_number",
                 "slug",
                 "name",
+                "full_name",
                 "model.name",
                 "model.make.name",
                 "has_photo_or_old",
@@ -562,7 +563,7 @@ def get_products_for_angara_procenka(request, search):
                 "description",
                 "stocks",
             ],
-            "query": {"match": {"name": f"{search}"}},
+            "query": {"match": {"full_name": f"{search}"}},
         }
 
     # data = {"query": {"match_all": {}}}

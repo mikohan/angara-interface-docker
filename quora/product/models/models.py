@@ -207,11 +207,11 @@ class Product(models.Model):  # Main table product
 
     @property
     def full_name(self):
-        if self.name2:
+        try:
             cars = [x.name for x in self.car_model.all()]
             cars_str = " ".join(cars)
-            return self.name + " " + cars_str + " " + self.name2
-        else:
+            return self.name + " " + cars_str
+        except Exception as e:
             return self.name
 
     @property
