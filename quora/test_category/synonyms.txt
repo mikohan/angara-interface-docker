@@ -1,0 +1,6 @@
+#File not working, all stuff is in the mapping file
+porter, порт => портер
+гбц, головка
+кпп => коробка
+масляный => маслянный
+bongo, бонго
