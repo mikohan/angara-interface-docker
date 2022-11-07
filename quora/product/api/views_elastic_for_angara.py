@@ -7,6 +7,7 @@ import pprint
 from django.conf import settings
 from brands.models import BrandsDict
 from product.models.models_vehicle import CarModel
+import re
 
 
 pp = pprint.PrettyPrinter(indent=2)
@@ -478,37 +479,92 @@ def get_products_for_yandex_market_xml(request):
 
 
 def get_products_for_angara_procenka(request, search):
-
-    data = {
-        "size": 10000,
-        "_source": [
-            "one_c_id",
-            "cat_number",
-            "slug",
-            "name",
-            "model.name",
-            "model.make.name",
-            "has_photo_or_old",
-            "price",
-            "category.name",
-            "category.id",
-            "category.parent",
-            "images.image",
-            "brand.name",
-            "cat_number",
-            "description",
-            "stocks",
-        ],
-        "query": {
-            "wildcard": {
-                "cat_number": {
-                    "value": f"{search}*",
-                    "boost": 1.0,
-                    "rewrite": "constant_score",
+    """Getting data for angara procenka"""
+    data = ""
+    if re.match(r"^\d{1}", search):
+        data = {
+            "size": 10000,
+            "_source": [
+                "one_c_id",
+                "cat_number",
+                "slug",
+                "name",
+                "model.name",
+                "model.make.name",
+                "has_photo_or_old",
+                "price",
+                "category.name",
+                "category.id",
+                "category.parent",
+                "images.image",
+                "brand.name",
+                "cat_number",
+                "description",
+                "stocks",
+            ],
+            "query": {
+                "bool": {
+                    "should": [
+                        {"wildcard": {"cat_number": {"value": f"{search}*"}}},
+                        {"wildcard": {"oem_number": {"value": f"{search}*"}}},
+                    ]
                 }
-            }
-        },
-    }
+            },
+        }
+    elif re.match(r"[A-Za-z]+", search):
+        data = {
+            "size": 10000,
+            "_source": [
+                "one_c_id",
+                "cat_number",
+                "slug",
+                "name",
+                "model.name",
+                "model.make.name",
+                "has_photo_or_old",
+                "price",
+                "category.name",
+                "category.id",
+                "category.parent",
+                "images.image",
+                "brand.name",
+                "cat_number",
+                "description",
+                "stocks",
+            ],
+            "query": {
+                "bool": {
+                    "should": [
+                        {"wildcard": {"cat_number": {"value": f"{search}*"}}},
+                        {"wildcard": {"oem_number": {"value": f"{search}*"}}},
+                    ]
+                }
+            },
+        }
+    else:
+        data = {
+            "size": 10000,
+            "_source": [
+                "one_c_id",
+                "cat_number",
+                "slug",
+                "name",
+                "model.name",
+                "model.make.name",
+                "has_photo_or_old",
+                "price",
+                "category.name",
+                "category.id",
+                "category.parent",
+                "images.image",
+                "brand.name",
+                "cat_number",
+                "description",
+                "stocks",
+            ],
+            "query": {"match": {"name": f"{search}"}},
+        }
+
     # data = {"query": {"match_all": {}}}
     data = json.dumps(data)
 

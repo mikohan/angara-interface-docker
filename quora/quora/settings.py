@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# load_dotenv(os.path.join(BASE_DIR, ".env"))
-load_dotenv(os.path.join(BASE_DIR, ".env.dev"))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+# load_dotenv(os.path.join(BASE_DIR, ".env.dev"))
 
 mimetypes.add_type("text/css", ".css", True)
 
@@ -28,6 +28,7 @@ ELASTIC_HOST = os.getenv("ELASTIC_HOST")
 ELASTIC_PORT = os.getenv("ELASTIC_PORT")
 ELASTIC_INDEX = os.getenv("ELASTIC_INDEX")
 ELASTIC_URL = f"http://{ELASTIC_HOST}:{ELASTIC_PORT}/{ELASTIC_INDEX}/_search"
+ELASTIC_URL_INSERT = f"http://{ELASTIC_HOST}:{ELASTIC_PORT}"
 
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -385,25 +386,25 @@ CURRENCY_LATEST_URL = os.getenv("CURRENCY_LATEST_URL")
 
 # ONE_C_PRICE = "/home/manhee/backend/quora/test_category/all.csv"
 
-CRONJOBS = [
-    (
-        "5 3 * * *",
-        "product.syncronizators.products_sync.sync_products",
-    ),
-    (
-        "0 4 * * *",
-        "test_category.elastic_insert.do_all_two",
-    ),
-    (
-        "0 5 * * *",
-        "test_category.elastic_stuff2.do_insert",
-    ),
-    (
-        "50 4 * * *",
-        "product.syncronizators.prices_sync.update_prices",
-    ),
-    (
-        "*/20 * * * *",
-        "orders.check_site.check",
-    ),
-]
+# CRONJOBS = [
+#     (
+#         "5 3 * * *",
+#         "product.syncronizators.products_sync.sync_products",
+#     ),
+#     (
+#         "0 4 * * *",
+#         "test_category.elastic_insert.do_all_two",
+#     ),
+#     (
+#         "0 5 * * *",
+#         "test_category.elastic_stuff2.do_insert",
+#     ),
+#     (
+#         "50 4 * * *",
+#         "product.syncronizators.prices_sync.update_prices",
+#     ),
+#     (
+#         "*/20 * * * *",
+#         "orders.check_site.check",
+#     ),
+# ]
