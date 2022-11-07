@@ -108,7 +108,6 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
                                                     "match": {
                                                         "cat_number": {
                                                             "query": search,
-                                                            "analyzer": "standard",
                                                         }
                                                     }
                                                 },
@@ -116,7 +115,6 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
                                                     "match": {
                                                         "oem_number": {
                                                             "query": search,
-                                                            "analyzer": "standard",
                                                         }
                                                     }
                                                 },
@@ -124,7 +122,6 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
                                                     "match": {
                                                         "one_c_id": {
                                                             "query": search,
-                                                            "analyzer": "standard",
                                                         }
                                                     }
                                                 },
@@ -137,23 +134,14 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
                     )
 
             else:
-                # Full text search
-                # query.append(
-                #     {
-                #         "match": {
-                #             # "full_name_ngrams": {
-                #             "full_name": {
-                #                 "query": second[0],
-                #                 "operator": "and",
-                #                 "analyzer": "rebuilt_russian",
-                #                 "fuzziness": fuzziness,
-                #             }
-                #         }
-                #     }
-                # )
-                # Search by prefixes
+                # Search by full name and model
                 query.append(
-                    {"match_phrase_prefix": {"full_name": {"query": second[0]}}},
+                    {
+                        "bool": {
+                            "must": [{"match": {"full_name": f"{second[0]}"}}],
+                            "should": [{"match": {"model.name": f"{second[0]}"}}],
+                        }
+                    },
                 )
 
         inside = []  # var for collecting inner filter values
@@ -192,10 +180,10 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
     tmp = {
         "from": page_from,
         "size": page_size,
-        "sort": [
-            {"has_photo": {"order": sort_price}},
-            {"stocks.price": {"order": "desc"}},
-        ],
+        # "sort": [
+        #     {"has_photo": {"order": sort_price}},
+        #     {"stocks.price": {"order": "desc"}},
+        # ],
         "query": {
             "bool": {
                 "must": [

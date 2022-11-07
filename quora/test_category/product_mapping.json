@@ -1,44 +1,43 @@
 {
   "settings": {
     "analysis": {
+      "analyzer": {
+        "russian_analyzer": {
+          "tokenizer": "standard",
+          "filter": ["lowercase", "russian_stemmer", "russian_stop", "synonym"]
+        },
+        "hyphen_remover": {
+          "tokenizer": "keyword",
+          "filter": ["lowercase", "my_remover"]
+        },
+        "cat2_analyzer": {
+          "tokenizer": "whitespace",
+          "filter": ["lowercase", "my_remover"]
+        }
+      },
       "filter": {
-        "synonym": {
-          "type": "synonym",
-          "synonyms": ["голов, головки, головка => гбц", "universe, cosmos"]
-        },
-        "russian_stop": {
-          "type": "stop",
-          "stopwords": "_russian_"
-        },
-        "russian_keywords": {
-          "type": "keyword_marker",
-          "keywords": ["пример"]
+        "my_remover": {
+          "type": "pattern_replace",
+          "pattern": "[\\-\\.]",
+          "replacement": ""
         },
         "russian_stemmer": {
           "type": "stemmer",
           "language": "russian"
         },
-        "ngram_filter": {
-          "type": "edge_ngram",
-          "min_gram": 2,
-          "max_gram": 20
-        }
-      },
-      "analyzer": {
-        "rebuilt_russian": {
-          "tokenizer": "standard",
-          "filter": [
-            "lowercase",
-            "russian_stop",
-            "russian_keywords",
-            "russian_stemmer",
-            "synonym"
-          ]
+        "russian_stop": {
+          "type": "stop",
+          "stopwords": "_russian_"
         },
-        "ngram_analyzer": {
-          "type": "custom",
-          "tokenizer": "standard",
-          "filter": ["lowercase", "russian_stop", "ngram_filter"]
+        "synonym": {
+          "type": "synonym",
+          "lenient": true,
+          "synonyms": [
+            "porter, порт => портер",
+            "гбц, головка",
+            "кпп => коробка",
+            "масляный => маслянный"
+          ]
         }
       }
     }
@@ -47,29 +46,23 @@
     "properties": {
       "name": {
         "type": "text",
-        "analyzer": "ngram_analyzer"
-      },
-      "cat_number": {
-        "type": "text",
-        "analyzer": "ngram_analyzer"
-      },
-      "oem_number": {
-        "type": "text",
-        "analyzer": "ngram_analyzer"
-      },
-      "full_name_ngrams": {
-        "type": "text",
-        "analyzer": "ngram_analyzer"
+        "analyzer": "russian_analyzer"
       },
       "full_name": {
         "type": "text",
-        "analyzer": "rebuilt_russian",
-        "fields": {
-          "keyword": {
-            "type": "keyword",
-            "ignore_above": 256
-          }
-        }
+        "analyzer": "russian_analyzer"
+      },
+      "model.name": {
+        "type": "text",
+        "analyzer": "russian_analyzer"
+      },
+      "cat_number": {
+        "type": "text",
+        "analyzer": "hyphen_remover"
+      },
+      "oem_number": {
+        "type": "text",
+        "analyzer": "cat2_analyzer"
       }
     }
   }

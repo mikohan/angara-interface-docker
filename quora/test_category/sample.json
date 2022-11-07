@@ -1,26 +1,25 @@
 {
   "from": "0",
   "size": "50",
-  "sort": [
-    {
-      "has_photo": {
-        "order": "desc"
-      }
-    },
-    {
-      "stocks.price": {
-        "order": "desc"
-      }
-    }
-  ],
   "query": {
     "bool": {
       "must": [
         {
-          "match_phrase_prefix": {
-            "full_name": {
-              "query": "\u043f\u0440\u043e\u043a\u043b\u0430\u0434\u043a\u0430 \u043f\u043e\u0434\u0434\u043e\u043d\u0430 \u043f\u043e\u0440\u0442\u0435\u0440"
-            }
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "full_name": "\u043f\u0440\u043e\u043a\u043b\u0430\u0434\u043a\u0430 \u043f\u043e\u0434\u0434\u043e\u043d\u0430 \u043f\u043e\u0440\u0442\u0435\u0440"
+                }
+              }
+            ],
+            "should": [
+              {
+                "match": {
+                  "model.name": "\u043f\u0440\u043e\u043a\u043b\u0430\u0434\u043a\u0430 \u043f\u043e\u0434\u0434\u043e\u043d\u0430 \u043f\u043e\u0440\u0442\u0435\u0440"
+                }
+              }
+            ]
           }
         },
         {
