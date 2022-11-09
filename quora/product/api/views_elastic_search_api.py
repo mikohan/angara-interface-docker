@@ -68,75 +68,84 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
                     query.append(
                         {
                             "bool": {
-                                "should": [
+                                "must": [
                                     {
-                                        "wildcard": {
-                                            "cat": {
-                                                "value": f"{search}*",
-                                                "case_insensitive": "true",
-                                            }
+                                        "bool": {
+                                            "should": [
+                                                {
+                                                    "wildcard": {
+                                                        "cat_number": {
+                                                            "value": f"{search}*",
+                                                            "case_insensitive": "true",
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "match": {
+                                                        "cat_number": {
+                                                            "query": search,
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "match": {
+                                                        "oem_number": {
+                                                            "query": search,
+                                                        }
+                                                    }
+                                                },
+                                            ]
                                         }
-                                    },
-                                    {
-                                        "match": {
-                                            "cat_number": {
-                                                "query": search,
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "match": {
-                                            "oem_number": {
-                                                "query": search,
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "match": {
-                                            "one_c_id": {
-                                                "query": search,
-                                            }
-                                        }
-                                    },
+                                    }
                                 ]
                             }
                         }
                     )
+
                 else:
                     """Here is if search not cntains a letter in string so it can be one c id"""
                     query.append(
                         {
                             "bool": {
-                                "should": [
+                                "must": [
                                     {
-                                        "wildcard": {
-                                            "cat": {
-                                                "value": f"{search}*",
-                                                "case_insensitive": "true",
-                                            }
+                                        "bool": {
+                                            "should": [
+                                                {
+                                                    "wildcard": {
+                                                        "cat_number": {
+                                                            "value": f"{search}*",
+                                                            "case_insensitive": "true",
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "match": {
+                                                        "cat_number": {
+                                                            "query": search,
+                                                            "analyzer": "standard",
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "match": {
+                                                        "oem_number": {
+                                                            "query": search,
+                                                            "analyzer": "standard",
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "match": {
+                                                        "one_c_id": {
+                                                            "query": search,
+                                                            "analyzer": "standard",
+                                                        }
+                                                    }
+                                                },
+                                            ]
                                         }
-                                    },
-                                    {
-                                        "match": {
-                                            "cat_number": {
-                                                "query": search,
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "match": {
-                                            "oem_number": {
-                                                "query": search,
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "match": {
-                                            "one_c_id": {
-                                                "query": search,
-                                            }
-                                        }
-                                    },
+                                    }
                                 ]
                             }
                         }
@@ -148,7 +157,15 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
                 query.append(
                     {
                         "bool": {
-                            "must": [
+                            "should": [
+                                {
+                                    "wildcard": {
+                                        "cat_number": {
+                                            "value": f"{search}*",
+                                            "case_insensitive": "true",
+                                        }
+                                    }
+                                },
                                 {
                                     "match": {
                                         "full_name": {
@@ -156,7 +173,7 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
                                             "operator": "and",
                                         }
                                     }
-                                }
+                                },
                             ],
                         }
                     },

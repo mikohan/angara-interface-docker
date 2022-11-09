@@ -1,6 +1,6 @@
 {
   "from": "0",
-  "size": "2",
+  "size": "200",
   "query": {
     "bool": {
       "must": [
@@ -8,11 +8,31 @@
           "bool": {
             "must": [
               {
-                "match": {
-                  "full_name": {
-                    "query": "\u043f\u0440\u043e\u043a\u043b\u0430\u0434\u043a\u0430 \u043f\u043e\u0434\u0434\u043e\u043d\u0430 \u043f\u043e\u0440\u0442\u0435\u0440",
-                    "operator": "and"
-                  }
+                "bool": {
+                  "should": [
+                    {
+                      "wildcard": {
+                        "cat_number": {
+                          "value": "970444a01*",
+                          "case_insensitive": "true"
+                        }
+                      }
+                    },
+                    {
+                      "match": {
+                        "cat_number": {
+                          "query": "970444a01"
+                        }
+                      }
+                    },
+                    {
+                      "match": {
+                        "oem_number": {
+                          "query": "970444a01"
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             ]
