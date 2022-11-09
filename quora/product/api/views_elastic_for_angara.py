@@ -563,7 +563,9 @@ def get_products_for_angara_procenka(request, search):
                 "description",
                 "stocks",
             ],
-            "query": {"match": {"full_name": f"{search}"}},
+            "query": {
+                "match": {"full_name": {"query": f"{search}", "operator": "and"}}
+            },
         }
 
     # data = {"query": {"match_all": {}}}

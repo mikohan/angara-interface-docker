@@ -135,11 +135,20 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
 
             else:
                 # Search by full name and model
+
                 query.append(
                     {
                         "bool": {
-                            "must": [{"match": {"full_name": f"{second[0]}"}}],
-                            "should": [{"match": {"model.name": f"{second[0]}"}}],
+                            "must": [
+                                {
+                                    "match": {
+                                        "full_name": {
+                                            "query": f"{second[0]}",
+                                            "operator": "and",
+                                        }
+                                    }
+                                }
+                            ],
                         }
                     },
                 )
