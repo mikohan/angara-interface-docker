@@ -537,6 +537,7 @@ def get_products_for_angara_procenka(request, search):
                     "should": [
                         {"wildcard": {"cat_number": {"value": f"{search}*"}}},
                         {"wildcard": {"oem_number": {"value": f"{search}*"}}},
+                        {"match": {"cat": f"{search}"}},
                     ]
                 }
             },
