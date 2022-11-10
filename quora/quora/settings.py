@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-load_dotenv(os.path.join(BASE_DIR, ".env"))
-# load_dotenv(os.path.join(BASE_DIR, ".env.dev"))
+# load_dotenv(os.path.join(BASE_DIR, ".env"))
+load_dotenv(os.path.join(BASE_DIR, ".env.dev"))
 
 mimetypes.add_type("text/css", ".css", True)
 
@@ -228,7 +228,9 @@ LOGOUT_REDIRECT_URL = "/"
 
 # Price for product update
 # ONE_C_PRICE = os.path.join(BASE_DIR, "test_category/all.csv")
-ONE_C_PRICE = os.path.join(BASE_DIR, "shared_data/all.csv")
+
+ONE_C_PRICE_DIR = os.getenv("ONE_C_PRICE_DIR")
+ONE_C_PRICE = os.path.join(BASE_DIR, ONE_C_PRICE_DIR)
 
 
 # Static files (CSS, JavaScript, Images)
