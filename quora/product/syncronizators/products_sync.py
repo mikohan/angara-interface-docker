@@ -58,7 +58,6 @@ def sync_products():
     f = 0
     csv_ids = []
 
-
     with open(settings.ONE_C_PRICE, encoding="utf-8") as file:
         reader = csv.reader(file, delimiter=";")
         csv_list = list(reader)
@@ -162,3 +161,7 @@ def do_all_sync_products():
     do_all_two()
     elastic_insert()
     # update_prices()
+
+
+if __name__ == "__main__":
+    do_all_sync_products()
