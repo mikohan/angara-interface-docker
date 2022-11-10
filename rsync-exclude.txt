@@ -1,0 +1,6 @@
+shared_data
+.env
+.env.dev
+product_notebook*
+docker-compose.yml
+.git

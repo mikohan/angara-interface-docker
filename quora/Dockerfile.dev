@@ -19,7 +19,11 @@ RUN pip install -U pip
 
 COPY . .
 
-# COPY ./scripts /scripts
+RUN (crontab -l 2>/dev/null; echo "* * * * * root /bin/date >> /app/shared_data/cron-log.txt 2>&1") | crontab -
 
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8003"]
+COPY ./entrypoint.dev.sh ./
+
+RUN chmod +x entrypoint.dev.sh
+
+ENTRYPOINT ["sh", "entrypoint.dev.sh"] 
