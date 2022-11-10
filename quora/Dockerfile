@@ -19,9 +19,7 @@ RUN pip install -U pip
 
 COPY . .
 
-# COPY ./scripts /scripts
+RUN (crontab -l 2>/dev/null; echo "30 14,20 * * * python /app/manage.py sync_products >> /app/shared_data/cron-log.txt 2>&1") | crontab -
 
-
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 COPY ./entrypoint.sh ./
 ENTRYPOINT ["sh", "entrypoint.sh"] 
