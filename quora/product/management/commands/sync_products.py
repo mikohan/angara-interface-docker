@@ -19,5 +19,5 @@ class Command(BaseCommand):
         )
         self.stdout.write(f"Start time: {time}")
         self.stdout.write(f"Price modification time: {file_dt}")
-        # do_all_sync_products()
+        do_all_sync_products()
         self.stdout.write(f"End time {time}")
