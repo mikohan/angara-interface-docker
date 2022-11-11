@@ -274,7 +274,7 @@ def getProducts():
             }
         )
         product = f"{product_json}\n"
-        index_json = json.dumps({"index": {"_index": "prod_all_test", "_id": prod.id}})
+        index_json = json.dumps({"index": {"_index": "prod_all", "_id": prod.id}})
         ret_index += f"{index_json}\n" + f"{product}"
         # Adding id to uniq list for further checking
         uniq_lst.append(prod.id)

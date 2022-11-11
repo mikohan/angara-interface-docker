@@ -167,12 +167,12 @@ def sync_products():
 
 def do_all_sync_products():
     print(f"{bcolors.OKBLUE}Started syncing products with 1C{bcolors.ENDC}")
-    message_sync_prod = sync_products()
-    print(message_sync_prod)
+    # message_sync_prod = sync_products()
+    # print(message_sync_prod)
     print(f"{bcolors.OKBLUE}Ends syncing products with 1C{bcolors.ENDC}")
     print(f"{bcolors.WARNING}Starting making file for elastic{bcolors.ENDC}")
-    message_el_cron = make_file_for_elastic_cron()
-    print(message_el_cron)
+    # message_el_cron = make_file_for_elastic_cron()
+    # print(message_el_cron)
     print(f"{bcolors.WARNING}Ends making file for elastic{bcolors.ENDC}")
     message_el = elastic_insert()
     print(message_el)
