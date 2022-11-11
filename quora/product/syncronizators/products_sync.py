@@ -6,6 +6,7 @@ import csv
 import hashlib
 from test_category.elastic_insert import do_all_two, do_all, make_file_for_elastic_cron
 from test_category.elastic_stuff2 import do_insert as elastic_insert
+from quora.common_lib.colors import bcolors
 
 # comment for testing git
 
@@ -164,9 +165,13 @@ def do_all_sync_products():
 
 
 def do_all_sync_products_cron():
+    print(f"{bcolors.OKBLUE}Started syncing products with 1C{bcolors.ENDC}")
     sync_products()
+    print(f"{bcolors.OKBLUE}Ends syncing products with 1C{bcolors.ENDC}")
+    print(f"{bcolors.WARNING}Starting making file for elastic{bcolors.ENDC}")
     make_file_for_elastic_cron()
-    do_all()
+    print(f"{bcolors.WARNING}Ends making file for elastic{bcolors.ENDC}")
+    # do_all()
     elastic_insert()
     # update_prices()
 

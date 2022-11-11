@@ -1,9 +1,11 @@
 from django.conf import settings
 from django.core.mail import EmailMessage
 import requests, os
+from quora.common_lib.colors import bcolors
 
 
 def do_insert():
+    """Inserting data from file into elastic search _bulk"""
     headers = {"Content-Type": "application/x-ndjson"}
     working_dir = os.path.join(settings.BASE_DIR, "test_category")
     path = os.path.join(working_dir, "product_mapping.json")
@@ -29,7 +31,7 @@ def do_insert():
         data=data_insert.encode("utf-8"),
         headers=headers,
     )
-    all_res = f"Elastic index inserted. Responses are Delete index - {res_delete}, Mapping index - {res_mapping}, Insert index - {res_insert}"
+    all_res = f"{bcolors.WARNING}Elastic index inserted. Responses are Delete index - {res_delete}{bcolors.ENDC}\n{bcolors.OKBLUE} Mapping index - {res_mapping}{bcolors.ENDC}\n{bcolors.OKGREEN} Insert index - {res_insert}{bcolors.ENDC}"
     from_email = f"PartsHub Admin <mikohan1@gmail.com>"
     headers = {
         "Content-Type": "text/plain",
