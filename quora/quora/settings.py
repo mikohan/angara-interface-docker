@@ -245,6 +245,11 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+SHARED_DATA = os.path.join(
+    BASE_DIR,
+    "..",
+    "shared_data",
+)
 if WHERE_IS_MEDIA_ROOT == "local":
     MEDIA_ROOT = os.path.join(BASE_DIR, "..", "media")
 

@@ -3,8 +3,9 @@ from django.conf import settings
 from product.models import Product, CarModel, Stock, Store
 from brands.models import BrandsDict
 import csv
+import hashlib
 from product.syncronizators.prices_sync import update_prices
-from test_category.elastic_insert import do_all_two
+from test_category.elastic_insert import do_all_two, do_all
 from test_category.elastic_stuff2 import do_insert as elastic_insert
 
 # comment for testing git
@@ -159,6 +160,13 @@ def sync_products():
 def do_all_sync_products():
     sync_products()
     do_all_two()
+    elastic_insert()
+    # update_prices()
+
+
+def do_all_sync_products_cron():
+    sync_products()
+    do_all()
     elastic_insert()
     # update_prices()
 
