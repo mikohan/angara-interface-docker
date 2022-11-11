@@ -20,7 +20,6 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 MAIN_HOST_SCHEME = os.environ.get("MAIN_HOST_SCHEME")
 MAIN_HOST = os.environ.get("MAIN_HOST")
 
-WHERE_IS_MEDIA_ROOT = os.getenv("WHERE_IS_MEDIA_ROOT")
 
 FRONTEND_URL = f"{MAIN_HOST_SCHEME}://{os.getenv('FRONTEND_URL')}"
 SITE_URL = f"{MAIN_HOST_SCHEME}://{MAIN_HOST}"
@@ -170,7 +169,10 @@ WSGI_APPLICATION = "quora.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-HOST = os.environ.get("MYSQL_HOST")
+
+MYSQL_HOST = os.environ.get("MYSQL_HOST")
+if os.getenv("LOCAL"):
+    MYSQL_HOST = "localhost"
 
 
 DATABASES = {
@@ -180,7 +182,7 @@ DATABASES = {
     #    },
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "HOST": HOST,
+        "HOST": MYSQL_HOST,
         "OPTIONS": {
             "read_default_file": os.path.join(BASE_DIR, "quora/my.cnf"),
             "sql_mode": "traditional",
@@ -250,8 +252,15 @@ SHARED_DATA = os.path.join(
     "shared_data",
 )
 
+WHERE_IS_MEDIA_ROOT = os.getenv("WHERE_IS_MEDIA_ROOT")
 if WHERE_IS_MEDIA_ROOT == "local":
     MEDIA_ROOT = os.path.join(BASE_DIR, "..", "media")
+
+SHARED_DATA = os.path.join(
+    BASE_DIR,
+    "shared_data",
+)
+if os.getenv("LOCAL"):
     SHARED_DATA = os.path.join(
         BASE_DIR,
         "..",

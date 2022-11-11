@@ -1,5 +1,5 @@
 from product.syncronizators.products_sync import sync_products
-from test_category.elastic_insert import do_all_two
+from test_category.elastic_insert import make_file_for_elastic_cron
 from test_category.elastic_stuff2 import do_insert
 from product.syncronizators.prices_sync import update_prices
 from quora.common_lib.email_sender import send_post
@@ -18,7 +18,7 @@ def do_all_products():
         )
     print("Start making elastic base")
     try:
-        do_all_two()
+        make_file_for_elastic_cron()
     except Exception as e:
         send_post(
             "Error! Making file for elasticsearch failed!",

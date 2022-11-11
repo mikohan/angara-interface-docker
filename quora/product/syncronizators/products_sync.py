@@ -4,7 +4,7 @@ from product.models import Product, CarModel, Stock, Store
 from brands.models import BrandsDict
 import csv
 import hashlib
-from test_category.elastic_insert import do_all_two, do_all, make_file_for_elastic_cron
+from test_category.elastic_insert import make_file_for_elastic_cron
 from test_category.elastic_stuff2 import do_insert as elastic_insert
 from quora.common_lib.colors import bcolors
 from django.core.mail import EmailMessage
@@ -232,7 +232,3 @@ def do_all_sync_products_cron():
         email.content_subtype = "html"
         email.send(fail_silently=False)
         print(e)
-
-
-if __name__ == "__main__":
-    do_all_sync_products()
