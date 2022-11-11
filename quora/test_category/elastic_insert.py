@@ -306,7 +306,7 @@ def make_file_for_elastic_cron():
     print(
         f"{bcolors.OKBLUE}Products are maked for Elastic insert: {prodCount}{bcolors.ENDC}"
     )
-    print(f"{bcolors.FAIL}Products are fucked up: {prodFuckedCount}{bcolors.ENDC}")
+    print(f"{bcolors.WARNING}Products are fucked up: {prodFuckedCount}{bcolors.ENDC}")
 
     if file_content_cmp(new_file, old_file):
         print("Files are the same")

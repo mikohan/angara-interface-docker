@@ -5,7 +5,7 @@ from django.conf import settings
 import os
 from quora.common_lib.colors import bcolors
 
-# from product.syncronizators.products_sync import make_file_for_elastic_cron
+from product.syncronizators.products_sync import do_all_sync_products_cron
 from test_category.elastic_insert import make_file_for_elastic_cron
 
 
@@ -24,5 +24,6 @@ class Command(BaseCommand):
         self.stdout.write(
             f"{bcolors.WARNING}Price modification time: {file_dt}{bcolors.ENDC}"
         )
-        make_file_for_elastic_cron()
+        # make_file_for_elastic_cron()
+        do_all_sync_products_cron()
         self.stdout.write(f"{bcolors.OKCYAN}End time {time_end}{bcolors.ENDC}")
