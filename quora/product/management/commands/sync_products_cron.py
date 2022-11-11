@@ -19,11 +19,9 @@ class Command(BaseCommand):
         file_dt = datetime.datetime.utcfromtimestamp(file_mod_timestamp).strftime(
             "%d.%m.%Y %H:%m"
         )
-        time_end = timezone.now().strftime("%X")
-        self.stdout.write(f"{bcolors.OKCYAN}Start time: {time}{bcolors.ENDC}")
-        self.stdout.write(
-            f"{bcolors.WARNING}Price modification time: {file_dt}{bcolors.ENDC}"
-        )
+        self.stdout.write(f"Start time: {time}")
+        self.stdout.write(f"Price modification time: {file_dt}")
         # make_file_for_elastic_cron()
         do_all_sync_products_cron()
-        self.stdout.write(f"{bcolors.OKCYAN}End time {time_end}{bcolors.ENDC}")
+        time_end = timezone.now().strftime("%X")
+        self.stdout.write(f"End time {time_end}")

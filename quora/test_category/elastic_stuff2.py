@@ -18,7 +18,8 @@ def do_insert():
         data_insert = file_insert.read()
 
     res_delete = requests.delete(
-        f"{settings.ELASTIC_URL_INSERT}/prod_all", headers=headers
+        f"{settings.ELASTIC_URL_INSERT}/prod_all",
+        headers=headers,
     )
     res_mapping = requests.put(
         f"{settings.ELASTIC_URL_INSERT}/prod_all",
