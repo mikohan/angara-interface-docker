@@ -199,17 +199,22 @@ def do_all_sync_products():
 
 
 def do_all_sync_products_cron():
-    print(f"{bcolors.OKBLUE}Started syncing products with 1C{bcolors.ENDC}")
+    print(f"Started syncing products with 1C")
     message_sync_prod = sync_products()
-    print(f"{bcolors.OKBLUE}Ends syncing products with 1C{bcolors.ENDC}")
-    print(f"{bcolors.WARNING}Starting making file for elastic{bcolors.ENDC}")
+    print(f"Ends syncing products with 1C")
+    print(f"Starting making file for elastic")
     message_el_cron = make_file_for_elastic_cron()
-    print(f"{bcolors.WARNING}Ends making file for elastic{bcolors.ENDC}")
+    print(f"Ends making file for elastic")
     message_el = elastic_insert()
     # Sending email to me with information
     body = message_sync_prod
     body += message_el_cron
     body += message_el
+    message = {
+        "sync_products": message_sync_prod,
+        "elastic_make_file": message_el_cron,
+        "insert_elastic": message_el,
+    }
 
     from_email = f"Server Admin <angara99@sendinblue.com>"
     headers = {
@@ -217,9 +222,10 @@ def do_all_sync_products_cron():
         "X-Priority": "1 (Highest)",
         "X-MSMail-Priority": "High",
     }
+    html = render_to_string("emails/elastic_insert.html", message)
     email = EmailMessage(
         "Elastic index inserted",
-        "<h1>Some html template</h1>",
+        html,
         from_email,
         settings.EMAIL_ADMINS,
         headers=headers,

@@ -84,104 +84,31 @@
       }
     </style>
     <body>
-      <h2>Спасибо за то, что остаетесь с нами!</h2>
+      <h2>Insert data into elasticsearch</h2>
       <div class="tg-wrap">
         <table class="tg">
           <thead>
             <tr>
-              <th class="tg-0lax">Заказ Номер</th>
-              <th class="tg-0lax">{{ data.number }}</th>
+              <th class="tg-0lax">Data</th>
+              <th class="tg-0lax">Logs</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="tg-hmp3">Имя</td>
-              <td class="tg-hmp3">{{ data.user.firstname }}</td>
+              <td class="tg-hmp3">Sync Products</td>
+              <td class="tg-hmp3">{{ sync_products }}</td>
             </tr>
             <tr>
-              <td class="tg-0lax">Фамилия</td>
-              <td class="tg-0lax">{{ data.user.lastname }}</td>
+              <td class="tg-0lax">Elastic file</td>
+              <td class="tg-0lax">{{ elastic_make_file }}</td>
             </tr>
             <tr>
-              <td class="tg-hmp3">Сумма</td>
-              <td class="tg-hmp3">{{ data.total }}</td>
-            </tr>
-            <tr>
-              <td class="tg-0lax">Город</td>
-              <td class="tg-0lax">{{ data.city }}</td>
-            </tr>
-            <tr>
-              <td class="tg-hmp3">Адрес</td>
-              <td class="tg-hmp3">{{ data.address }}</td>
-            </tr>
-            <tr>
-              <td class="tg-hmp3">Телефон</td>
-              <td class="tg-hmp3">{{ data.phone }}</td>
-            </tr>
-            <tr>
-              <td class="tg-0lax">Имя</td>
-              <td class="tg-0lax">{{ data.user.name }}</td>
-            </tr>
-            <tr>
-              <td class="tg-0lax">Доставка</td>
-              <td class="tg-0lax">{{ data.delivery }}</td>
-            </tr>
-            <tr>
-              <td class="tg-hmp3">Оплата</td>
-              <td class="tg-hmp3">{{ data.payment }}</td>
+              <td class="tg-hmp3">Elastic insert</td>
+              <td class="tg-hmp3">{{ insert_ellastic }}</td>
             </tr>
           </tbody>
         </table>
-      </div>
-      <h2 style="margin-top: 20px; margin-bottom: 20px;">Детали заказа</h2>
-      <div class="tg-wrap">
-        <table class="tg">
-          <thead>
-            <tr>
-              <th class="tg-0lax">#</th>
-              <th class="tg-0lax">Название</th>
-              <th class="tg-0lax">Бренд</th>
-              <th class="tg-0lax">Каталог</th>
-              <th class="tg-0lax">ONECID</th>
-              <th class="tg-0lax">Количество</th>
-              <th class="tg-0lax">Цена</th>
-              <th class="tg-0lax">Сумма</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for product in products %}
-            <tr>
-              <td class="tg-hmp3">{{ forloop.counter }}</td>
-              <td class="tg-hmp3">{{ product.name }}</td>
-              <td class="tg-hmp3">{{ product.brand }}</td>
-              <td class="tg-hmp3">{{ product.cat_number }}</td>
-              <td class="tg-hmp3">{{ product.one_c_id }}</td>
-              <td class="tg-hmp3">{{ product.quantity }}</td>
-              <td class="tg-hmp3">{{ product.price }}</td>
-              <td class="tg-hmp3">{{ product.total }}</td>
-            </tr>
-            {% endfor %}
-            <tfoot>
-              <tr>
-              <th class="tg-0lax" id="total" colspan="7" style="font-size: 18px; font-weight: 700;">Сумма</th>
-              <th class="tg-0lax" style="font-size: 18px; font-weight: 700;">{{data.total}}</th>
-              </tr>
-            </tfoot>
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <h3>Телефон для связи: {{ data.company_phone }}</h3>
-        <h3>Email для связи: {{ data.company_email }}</h3>
-        <h3>Сайт: <a href="{{ data.company_website }}">{{ data.company_website }}</a></h3>
       </div>
     </body>
   </head>
 </html>
-
-
-
-
-
-
-
