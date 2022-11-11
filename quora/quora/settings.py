@@ -247,11 +247,16 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 SHARED_DATA = os.path.join(
     BASE_DIR,
-    "..",
     "shared_data",
 )
+
 if WHERE_IS_MEDIA_ROOT == "local":
     MEDIA_ROOT = os.path.join(BASE_DIR, "..", "media")
+    SHARED_DATA = os.path.join(
+        BASE_DIR,
+        "..",
+        "shared_data",
+    )
 
 
 MEDIA_URL = "/media/"
@@ -314,7 +319,7 @@ EMAIL_ADMINS = ["angara99@gmail.com", "yellkalolka@gmail.com"]
 EMAIL_REPLY_TO = ["angara77@gmail.com"]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST = "smtp-relay.sendinblue.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")

@@ -1,0 +1,31 @@
+[96mStart time: 09:37:05[0m
+[93mPrice modification time: 28.10.2022 13:10[0m
+[94mStarted syncing products with 1C[0m
+Lenght of product id list is: 21573
+Sync script ended up in: 0:01:37.853539
+Products updated: 0 Products the same:  21428
+[94mEnds syncing products with 1C[0m
+[93mStarting making file for elastic[0m
+Total products in base: 21573
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.8/site-packages/django/core/management/__init__.py", line 401, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.8/site-packages/django/core/management/__init__.py", line 395, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/usr/local/lib/python3.8/site-packages/django/core/management/base.py", line 328, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/usr/local/lib/python3.8/site-packages/django/core/management/base.py", line 369, in execute
+    output = self.handle(*args, **options)
+  File "/app/product/management/commands/sync_products_cron.py", line 28, in handle
+    do_all_sync_products_cron()
+  File "/app/product/syncronizators/products_sync.py", line 172, in do_all_sync_products_cron
+    print(f"{bcolors.WARNING}Starting making file for elastic{bcolors.ENDC}")
+  File "/app/test_category/elastic_insert.py", line 303, in make_file_for_elastic_cron
+    uniq_list, prodCount, prodFuckedCount = getProducts()
+  File "/app/test_category/elastic_insert.py", line 283, in getProducts
+    with open(os.path.join(settings.SHARED_DATA, "products_not_on_site.csv"), "w") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/app/../shared_data/products_not_on_site.csv'

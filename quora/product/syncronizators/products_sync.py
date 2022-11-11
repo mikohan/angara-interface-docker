@@ -7,6 +7,7 @@ import hashlib
 from test_category.elastic_insert import do_all_two, do_all, make_file_for_elastic_cron
 from test_category.elastic_stuff2 import do_insert as elastic_insert
 from quora.common_lib.colors import bcolors
+from django.core.mail import EmailMessage
 
 # comment for testing git
 
@@ -85,7 +86,7 @@ def sync_products():
 
     products = Product.objects.all()
     product_id_list = [x.one_c_id for x in products]
-    print("Lenght of product id list is:", len(product_id_list))
+    prod_count = len(product_id_list)
     update_list = []
     create_list = []
     obj_create_list = []
@@ -152,9 +153,8 @@ def sync_products():
             st.save()
 
     end = datetime.now()
-    print(f"Sync script ended up in:", end - start)
-    print(f"Products updated:", j, "Products the same: ", i)
-    # Comment for git
+    t = end - start
+    return f"Synced {prod_count} products, in {t}"
 
 
 def do_all_sync_products():
@@ -166,13 +166,31 @@ def do_all_sync_products():
 
 def do_all_sync_products_cron():
     print(f"{bcolors.OKBLUE}Started syncing products with 1C{bcolors.ENDC}")
-    sync_products()
+    message_sync_prod = sync_products()
     print(f"{bcolors.OKBLUE}Ends syncing products with 1C{bcolors.ENDC}")
     print(f"{bcolors.WARNING}Starting making file for elastic{bcolors.ENDC}")
-    make_file_for_elastic_cron()
+    message_el_cron = make_file_for_elastic_cron()
     print(f"{bcolors.WARNING}Ends making file for elastic{bcolors.ENDC}")
-    # do_all()
-    elastic_insert()
+    message_el = elastic_insert()
+    # Sending email to me with information
+    body = message_sync_prod
+    body += message_el_cron
+    body += message_el
+
+    from_email = f"Server Admin <angara99@gmail.com>"
+    headers = {
+        "Content-Type": "text/plain",
+        "X-Priority": "1 (Highest)",
+        "X-MSMail-Priority": "High",
+    }
+    email = EmailMessage(
+        "Elastic index inserted",
+        body,
+        from_email,
+        settings.EMAIL_ADMINS,
+        headers=headers,
+    )
+    email.send(fail_silently=False)
     # update_prices()
 
 
