@@ -31,7 +31,7 @@ def do_insert():
         data=data_insert.encode("utf-8"),
         headers=headers,
     )
-    all_res = f"{bcolors.WARNING}Elastic index inserted. Responses are Delete index - {res_delete}{bcolors.ENDC}\n{bcolors.OKBLUE} Mapping index - {res_mapping}{bcolors.ENDC}\n{bcolors.OKGREEN} Insert index - {res_insert}{bcolors.ENDC}"
+    all_res = f"{bcolors.OKGREEN}Elastic index inserted. Responses are Delete index - {res_delete}{bcolors.ENDC}\n{bcolors.OKBLUE} Mapping index - {res_mapping}{bcolors.ENDC}\n{bcolors.OKGREEN} Insert index - {res_insert}{bcolors.ENDC}"
     from_email = f"PartsHub Admin <mikohan1@gmail.com>"
     headers = {
         "Content-Type": "text/plain",
