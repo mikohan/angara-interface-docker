@@ -1,9 +1,20 @@
-[96mStart time: 10:10:05[0m
+[96mStart time: 12:20:06[0m
 [93mPrice modification time: 28.10.2022 13:10[0m
-[94mStarted syncing products with 1C[0m
-[94mEnds syncing products with 1C[0m
-[93mStarting making file for elastic[0m
+Started syncing products with 1C
+Ends syncing products with 1C
+Starting making file for elastic
 Total products in base: 200
+Traceback (most recent call last):
+  File "/app/product/syncronizators/products_sync.py", line 214, in do_all_sync_products_cron
+    from_email,
+  File "/app/test_category/elastic_insert.py", line 303, in make_file_for_elastic_cron
+    uniq_list, prodCount, prodFuckedCount = getProducts()
+  File "/app/test_category/elastic_insert.py", line 283, in getProducts
+    with open(os.path.join(settings.SHARED_DATA, "products_not_on_site.csv"), "w") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/app/../shared_data/products_not_on_site.csv'
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
   File "manage.py", line 21, in <module>
     main()
@@ -19,10 +30,17 @@ Traceback (most recent call last):
     output = self.handle(*args, **options)
   File "/app/product/management/commands/sync_products_cron.py", line 28, in handle
     do_all_sync_products_cron()
-  File "/app/product/syncronizators/products_sync.py", line 172, in do_all_sync_products_cron
-    message_el_cron = make_file_for_elastic_cron()
-  File "/app/test_category/elastic_insert.py", line 303, in make_file_for_elastic_cron
-    uniq_list, prodCount, prodFuckedCount = getProducts()
-  File "/app/test_category/elastic_insert.py", line 283, in getProducts
-    with open(os.path.join(settings.SHARED_DATA, "products_not_on_site.csv"), "w") as f:
-FileNotFoundError: [Errno 2] No such file or directory: '/app/../shared_data/products_not_on_site.csv'
+  File "/app/product/syncronizators/products_sync.py", line 251, in do_all_sync_products_cron
+  File "/usr/local/lib/python3.8/site-packages/django/core/mail/message.py", line 276, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.8/site-packages/django/core/mail/backends/smtp.py", line 102, in send_messages
+    new_conn_created = self.open()
+  File "/usr/local/lib/python3.8/site-packages/django/core/mail/backends/smtp.py", line 69, in open
+    self.connection.login(self.username, self.password)
+  File "/usr/local/lib/python3.8/smtplib.py", line 748, in login
+    raise last_exception
+  File "/usr/local/lib/python3.8/smtplib.py", line 737, in login
+    (code, resp) = self.auth(
+  File "/usr/local/lib/python3.8/smtplib.py", line 660, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (530, b'Invalid username or password')

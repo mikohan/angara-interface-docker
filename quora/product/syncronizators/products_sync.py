@@ -176,30 +176,19 @@ def do_all_sync_products():
     print(f"{bcolors.WARNING}Ends making file for elastic{bcolors.ENDC}")
     message_el = elastic_insert()
     print(message_el)
-    # Sending email to me with information
-    body = message_sync_prod
-    body += message_el_cron
-    body += message_el
 
-    from_email = f"Server Admin <angara99@gmail.com>"
-    headers = {
-        "Content-Type": "text/plain",
-        "X-Priority": "1 (Highest)",
-        "X-MSMail-Priority": "High",
-    }
-    email = EmailMessage(
-        "Elastic index inserted",
-        body,
-        from_email,
-        settings.EMAIL_ADMINS,
-        headers=headers,
-    )
-    email.send(fail_silently=False)
     # update_prices()
 
 
 def do_all_sync_products_cron():
     print(f"Started syncing products with 1C")
+    from_email = f"Django Docker Server Admin <angara99@sendinblue.com>"
+    subject = ""
+    headers = {
+        "Content-Type": "text/plain",
+        "X-Priority": "1 (Highest)",
+        "X-MSMail-Priority": "High",
+    }
     try:
         message_sync_prod = sync_products()
         print(f"Ends syncing products with 1C")
@@ -217,15 +206,10 @@ def do_all_sync_products_cron():
             "insert_elastic": message_el,
         }
 
-        from_email = f"Server Admin <angara99@sendinblue.com>"
-        headers = {
-            "Content-Type": "text/plain",
-            "X-Priority": "1 (Highest)",
-            "X-MSMail-Priority": "High",
-        }
         html = render_to_string("emails/elastic_insert.html", message)
+        subject = "Products Updated in Django Docker"
         email = EmailMessage(
-            "Elastic index inserted",
+            subject,
             html,
             from_email,
             settings.EMAIL_ADMINS,
@@ -235,16 +219,11 @@ def do_all_sync_products_cron():
         email.send(fail_silently=False)
         # update_prices()
     except Exception as e:
-        from_email = f"Server Admin <angara99@sendinblue.com>"
-        headers = {
-            "Content-Type": "text/plain",
-            "X-Priority": "1 (Highest)",
-            "X-MSMail-Priority": "High",
-        }
         message = {"error": e}
+        subject = "Error at Products Updating in Django Docker"
         html = render_to_string("emails/elastic_insert_error.html", message)
         email = EmailMessage(
-            "Elastic index inserted",
+            subject,
             html,
             from_email,
             settings.EMAIL_ADMINS,
