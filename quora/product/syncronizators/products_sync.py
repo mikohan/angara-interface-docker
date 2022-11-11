@@ -200,39 +200,59 @@ def do_all_sync_products():
 
 def do_all_sync_products_cron():
     print(f"Started syncing products with 1C")
-    message_sync_prod = sync_products()
-    print(f"Ends syncing products with 1C")
-    print(f"Starting making file for elastic")
-    message_el_cron = make_file_for_elastic_cron()
-    print(f"Ends making file for elastic")
-    message_el = elastic_insert()
-    # Sending email to me with information
-    body = message_sync_prod
-    body += message_el_cron
-    body += message_el
-    message = {
-        "sync_products": message_sync_prod,
-        "elastic_make_file": message_el_cron,
-        "insert_elastic": message_el,
-    }
+    try:
+        message_sync_prod = sync_products()
+        print(f"Ends syncing products with 1C")
+        print(f"Starting making file for elastic")
+        message_el_cron = make_file_for_elastic_cron()
+        print(f"Ends making file for elastic")
+        message_el = elastic_insert()
+        # Sending email to me with information
+        body = message_sync_prod
+        body += message_el_cron
+        body += message_el
+        message = {
+            "sync_products": message_sync_prod,
+            "elastic_make_file": message_el_cron,
+            "insert_elastic": message_el,
+        }
 
-    from_email = f"Server Admin <angara99@sendinblue.com>"
-    headers = {
-        "Content-Type": "text/plain",
-        "X-Priority": "1 (Highest)",
-        "X-MSMail-Priority": "High",
-    }
-    html = render_to_string("emails/elastic_insert.html", message)
-    email = EmailMessage(
-        "Elastic index inserted",
-        html,
-        from_email,
-        settings.EMAIL_ADMINS,
-        headers=headers,
-    )
-    email.content_subtype = "html"
-    email.send(fail_silently=False)
-    # update_prices()
+        from_email = f"Server Admin <angara99@sendinblue.com>"
+        headers = {
+            "Content-Type": "text/plain",
+            "X-Priority": "1 (Highest)",
+            "X-MSMail-Priority": "High",
+        }
+        html = render_to_string("emails/elastic_insert.html", message)
+        email = EmailMessage(
+            "Elastic index inserted",
+            html,
+            from_email,
+            settings.EMAIL_ADMINS,
+            headers=headers,
+        )
+        email.content_subtype = "html"
+        email.send(fail_silently=False)
+        # update_prices()
+    except Exception as e:
+        from_email = f"Server Admin <angara99@sendinblue.com>"
+        headers = {
+            "Content-Type": "text/plain",
+            "X-Priority": "1 (Highest)",
+            "X-MSMail-Priority": "High",
+        }
+        message = {"error": e}
+        html = render_to_string("emails/elastic_insert_error.html", message)
+        email = EmailMessage(
+            "Elastic index inserted",
+            html,
+            from_email,
+            settings.EMAIL_ADMINS,
+            headers=headers,
+        )
+        email.content_subtype = "html"
+        email.send(fail_silently=False)
+        print(e)
 
 
 if __name__ == "__main__":
