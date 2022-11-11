@@ -7,7 +7,7 @@ def do_insert():
     """Inserting data from file into elastic search _bulk"""
     headers = {"Content-Type": "application/x-ndjson"}
     working_dir = os.path.join(settings.BASE_DIR, "test_category")
-    path = os.path.join(working_dir, "product_mapping_v2.json")
+    path = os.path.join(working_dir, "product_mapping.json")
 
     with open(path, "r", encoding="utf-8") as file_mapping:
         data_mapping = file_mapping.read()
