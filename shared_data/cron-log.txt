@@ -1,9 +1,7 @@
-[96mStart time: 12:49:03[0m
-[93mPrice modification time: 28.09.2022 13:09[0m
+Start time: 14:06:03
+Price modification time: 28.09.2022 13:09
 Started syncing products with 1C
 Ends syncing products with 1C
 Starting making file for elastic
-Total products in base: 200
-[Errno 2] No such file or directory: '/app/../shared_data/products_not_on_site.csv'
-[96mEnd time 12:49:03[0m
-Error response from daemon: Container cca3234e1d88e6313cdc3a10f1b997f27c25612ad5632103d720818251ca9264 is not running
+Ends making file for elastic
+End time 14:06:05
