@@ -8,6 +8,7 @@ from test_category.elastic_insert import do_all_two, do_all, make_file_for_elast
 from test_category.elastic_stuff2 import do_insert as elastic_insert
 from quora.common_lib.colors import bcolors
 from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 # comment for testing git
 
@@ -157,21 +158,24 @@ def sync_products():
     return f"Synced {prod_count} products, in {t}"
 
 
+# def do_all_sync_products():
+#     sync_products()
+#     do_all_two()
+#     elastic_insert()
+#     # update_prices()
+
+
 def do_all_sync_products():
-    sync_products()
-    do_all_two()
-    elastic_insert()
-    # update_prices()
-
-
-def do_all_sync_products_cron():
     print(f"{bcolors.OKBLUE}Started syncing products with 1C{bcolors.ENDC}")
     message_sync_prod = sync_products()
+    print(message_sync_prod)
     print(f"{bcolors.OKBLUE}Ends syncing products with 1C{bcolors.ENDC}")
     print(f"{bcolors.WARNING}Starting making file for elastic{bcolors.ENDC}")
     message_el_cron = make_file_for_elastic_cron()
+    print(message_el_cron)
     print(f"{bcolors.WARNING}Ends making file for elastic{bcolors.ENDC}")
     message_el = elastic_insert()
+    print(message_el)
     # Sending email to me with information
     body = message_sync_prod
     body += message_el_cron
@@ -190,6 +194,37 @@ def do_all_sync_products_cron():
         settings.EMAIL_ADMINS,
         headers=headers,
     )
+    email.send(fail_silently=False)
+    # update_prices()
+
+
+def do_all_sync_products_cron():
+    print(f"{bcolors.OKBLUE}Started syncing products with 1C{bcolors.ENDC}")
+    message_sync_prod = sync_products()
+    print(f"{bcolors.OKBLUE}Ends syncing products with 1C{bcolors.ENDC}")
+    print(f"{bcolors.WARNING}Starting making file for elastic{bcolors.ENDC}")
+    message_el_cron = make_file_for_elastic_cron()
+    print(f"{bcolors.WARNING}Ends making file for elastic{bcolors.ENDC}")
+    message_el = elastic_insert()
+    # Sending email to me with information
+    body = message_sync_prod
+    body += message_el_cron
+    body += message_el
+
+    from_email = f"Server Admin <angara99@sendinblue.com>"
+    headers = {
+        "Content-Type": "text/plain",
+        "X-Priority": "1 (Highest)",
+        "X-MSMail-Priority": "High",
+    }
+    email = EmailMessage(
+        "Elastic index inserted",
+        "<h1>Some html template</h1>",
+        from_email,
+        settings.EMAIL_ADMINS,
+        headers=headers,
+    )
+    email.content_subtype = "html"
     email.send(fail_silently=False)
     # update_prices()
 

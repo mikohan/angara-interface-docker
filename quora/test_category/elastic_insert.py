@@ -303,10 +303,8 @@ def make_file_for_elastic_cron():
     uniq_list, prodCount, prodFuckedCount = getProducts()
     n = text_file.write(uniq_list)
     text_file.close()
-    message = f"{bcolors.OKBLUE}Products are maked for Elastic insert: {prodCount}{bcolors.ENDC}"
-    message += (
-        f"{bcolors.WARNING}Products are fucked up: {prodFuckedCount}{bcolors.ENDC}"
-    )
+    message = f"Products are maked for Elastic insert: {prodCount}\n"
+    message += f"Products are fucked up: {prodFuckedCount}\n"
 
     if file_content_cmp(new_file, old_file):
         print("Files are the same")

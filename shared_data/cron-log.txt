@@ -1,12 +1,9 @@
-[96mStart time: 09:37:05[0m
+[96mStart time: 10:10:05[0m
 [93mPrice modification time: 28.10.2022 13:10[0m
 [94mStarted syncing products with 1C[0m
-Lenght of product id list is: 21573
-Sync script ended up in: 0:01:37.853539
-Products updated: 0 Products the same:  21428
 [94mEnds syncing products with 1C[0m
 [93mStarting making file for elastic[0m
-Total products in base: 21573
+Total products in base: 200
 Traceback (most recent call last):
   File "manage.py", line 21, in <module>
     main()
@@ -23,7 +20,7 @@ Traceback (most recent call last):
   File "/app/product/management/commands/sync_products_cron.py", line 28, in handle
     do_all_sync_products_cron()
   File "/app/product/syncronizators/products_sync.py", line 172, in do_all_sync_products_cron
-    print(f"{bcolors.WARNING}Starting making file for elastic{bcolors.ENDC}")
+    message_el_cron = make_file_for_elastic_cron()
   File "/app/test_category/elastic_insert.py", line 303, in make_file_for_elastic_cron
     uniq_list, prodCount, prodFuckedCount = getProducts()
   File "/app/test_category/elastic_insert.py", line 283, in getProducts

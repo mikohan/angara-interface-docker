@@ -1,6 +1,5 @@
 from django.conf import settings
-
-import requests, os
+import requests, os, json
 from quora.common_lib.colors import bcolors
 
 
@@ -31,5 +30,6 @@ def do_insert():
         data=data_insert.encode("utf-8"),
         headers=headers,
     )
-    all_res = f"{bcolors.OKGREEN}Elastic index inserted. Responses are Delete index - {res_delete}{bcolors.ENDC}\n{bcolors.OKBLUE} Mapping index - {res_mapping}{bcolors.ENDC}\n{bcolors.OKGREEN} Insert index - {res_insert}{bcolors.ENDC}"
+
+    all_res = f"Elastic index inserted. Responses are Delete index: {res_delete.status_code} \n Mapping index: {res_mapping.status_code} \n Insert index: {res_insert.status_code}"
     return all_res

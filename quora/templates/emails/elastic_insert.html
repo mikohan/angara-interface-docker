@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <title></title>
+    <!--[if mso]>
+      <noscript>
+        <xml>
+          <o:OfficeDocumentSettings>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+          </o:OfficeDocumentSettings>
+        </xml>
+      </noscript>
+    <![endif]-->
+    <style type="text/css">
+      .tg {
+        width: 80%;
+        border-collapse: collapse;
+        border-color: #9abad9;
+        border-spacing: 0;
+        border-style: solid;
+        border-width: 1px;
+      }
+      .tg td {
+        background-color: #ebf5ff;
+        border-color: #9abad9;
+        border-style: solid;
+        border-width: 0px;
+        color: #444;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        overflow: hidden;
+        padding: 10px 5px;
+        word-break: normal;
+      }
+      .tg th {
+        background-color: #409cff;
+        border-color: #9abad9;
+        border-style: solid;
+        border-width: 0px;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        font-weight: normal;
+        overflow: hidden;
+        padding: 10px 5px;
+        word-break: normal;
+      }
+      .tg .tg-hmp3 {
+        background-color: #d2e4fc;
+        text-align: left;
+        vertical-align: top;
+      }
+      .tg .tg-0lax {
+        text-align: left;
+        vertical-align: top;
+      }
+      .tg-wrap {
+        margin-bottom: 50px;
+      }
+      .summ {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      @media screen and (max-width: 767px) {
+        .tg {
+          width: auto !important;
+        }
+        .tg col {
+          width: auto !important;
+        }
+        .tg-wrap {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+      }
+    </style>
+    <body>
+      <h2>Спасибо за то, что остаетесь с нами!</h2>
+      <div class="tg-wrap">
+        <table class="tg">
+          <thead>
+            <tr>
+              <th class="tg-0lax">Заказ Номер</th>
+              <th class="tg-0lax">{{ data.number }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tg-hmp3">Имя</td>
+              <td class="tg-hmp3">{{ data.user.firstname }}</td>
+            </tr>
+            <tr>
+              <td class="tg-0lax">Фамилия</td>
+              <td class="tg-0lax">{{ data.user.lastname }}</td>
+            </tr>
+            <tr>
+              <td class="tg-hmp3">Сумма</td>
+              <td class="tg-hmp3">{{ data.total }}</td>
+            </tr>
+            <tr>
+              <td class="tg-0lax">Город</td>
+              <td class="tg-0lax">{{ data.city }}</td>
+            </tr>
+            <tr>
+              <td class="tg-hmp3">Адрес</td>
+              <td class="tg-hmp3">{{ data.address }}</td>
+            </tr>
+            <tr>
+              <td class="tg-hmp3">Телефон</td>
+              <td class="tg-hmp3">{{ data.phone }}</td>
+            </tr>
+            <tr>
+              <td class="tg-0lax">Имя</td>
+              <td class="tg-0lax">{{ data.user.name }}</td>
+            </tr>
+            <tr>
+              <td class="tg-0lax">Доставка</td>
+              <td class="tg-0lax">{{ data.delivery }}</td>
+            </tr>
+            <tr>
+              <td class="tg-hmp3">Оплата</td>
+              <td class="tg-hmp3">{{ data.payment }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h2 style="margin-top: 20px; margin-bottom: 20px;">Детали заказа</h2>
+      <div class="tg-wrap">
+        <table class="tg">
+          <thead>
+            <tr>
+              <th class="tg-0lax">#</th>
+              <th class="tg-0lax">Название</th>
+              <th class="tg-0lax">Бренд</th>
+              <th class="tg-0lax">Каталог</th>
+              <th class="tg-0lax">ONECID</th>
+              <th class="tg-0lax">Количество</th>
+              <th class="tg-0lax">Цена</th>
+              <th class="tg-0lax">Сумма</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in products %}
+            <tr>
+              <td class="tg-hmp3">{{ forloop.counter }}</td>
+              <td class="tg-hmp3">{{ product.name }}</td>
+              <td class="tg-hmp3">{{ product.brand }}</td>
+              <td class="tg-hmp3">{{ product.cat_number }}</td>
+              <td class="tg-hmp3">{{ product.one_c_id }}</td>
+              <td class="tg-hmp3">{{ product.quantity }}</td>
+              <td class="tg-hmp3">{{ product.price }}</td>
+              <td class="tg-hmp3">{{ product.total }}</td>
+            </tr>
+            {% endfor %}
+            <tfoot>
+              <tr>
+              <th class="tg-0lax" id="total" colspan="7" style="font-size: 18px; font-weight: 700;">Сумма</th>
+              <th class="tg-0lax" style="font-size: 18px; font-weight: 700;">{{data.total}}</th>
+              </tr>
+            </tfoot>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3>Телефон для связи: {{ data.company_phone }}</h3>
+        <h3>Email для связи: {{ data.company_email }}</h3>
+        <h3>Сайт: <a href="{{ data.company_website }}">{{ data.company_website }}</a></h3>
+      </div>
+    </body>
+  </head>
+</html>
+
+
+
+
+
+
+
