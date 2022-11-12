@@ -64,7 +64,6 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
 
                 if bool(re.search(r"[a-zA-Z]", search)):
                     """Checking if letter in number so it cat number otherwise it migth be a one c id"""
-                    print("Match letter")
                     query.append(
                         {
                             "bool": {
