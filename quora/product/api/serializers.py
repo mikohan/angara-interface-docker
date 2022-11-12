@@ -93,6 +93,11 @@ class ImageSerializer(serializers.ModelSerializer):
             "img245",
             "img500",
             "img800",
+            "image_webp",
+            "image150_webp",
+            "image245_webp",
+            "image500_webp",
+            "image800_webp",
             "main",
         ]
 

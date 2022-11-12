@@ -350,7 +350,24 @@ class ProductImage(models.Model):
             None,
         )
 
-        # Rectangle 150x150
+        # saving rect 150
+        img150 = ImageOps.fit(
+            im, size[0], method=method, bleed=0.0, centering=(0.5, 0.5)
+        )
+        output = io.BytesIO()
+        img150.save(output, format="JPEG", quality=90)
+        output.seek(0)
+
+        self.img150 = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/jpeg",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
+        # saving square 150x150
         img150x150 = ImageOps.fit(
             im, (150, 150), method=method, bleed=0.0, centering=(0.5, 0.5)
         )

@@ -176,7 +176,9 @@
                                     <div class="row bottom-border">
                                         <div class="product-image-container">
                                             <div v-for="(prod_img,i) in productImages" class="product-image-item">
-                                                <img :src="prod_img.img150" class="product-image-image">
+                                                
+                                                <img v-if="prod_img.img150" :src="prod_img.img150" class="product-image-image">
+                                                <img v-else :src="prod_img.image245_webp" class="product-image-image">
                                                 <div class="row product-image-footer">
                                                     <div class="col-6">
                                                         <!-- <div class="custom-control custom-radio">
