@@ -4,6 +4,30 @@ import os
 import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.images import ImageFile
+from django.dispatch import receiver
+
+
+# Custom path to upload images in webp
+def img_path_webp(instance, filename, *args, **kwargs):
+    path = os.path.join(
+        "parts_webp",
+        str(instance.product.cat_number),
+        str(instance.product.brand).replace(" ", "_"),
+        filename + ".webp",
+    )
+    return path
+
+
+# Custom path for tmp in webp
+def img_path_webp_tmb(instance, filename, *args, **kwargs):
+    path = os.path.join(
+        "parts_webp",
+        str(instance.product.cat_number),
+        str(instance.product.brand).replace(" ", "_"),
+        "tmb",
+        filename + ".webp",
+    )
+    return path
 
 
 # Custom path to upload images
@@ -152,7 +176,27 @@ class OldProductImage(models.Model):
 ###############################################################################
 # Product images
 class ProductImage(models.Model):
+    """Class contains all images for products"""
+
+    quality_webp = 50
     image = models.ImageField(max_length=255, upload_to=img_path, null=True, blank=True)
+    # Webp section
+    image_webp = models.ImageField(
+        max_length=255, upload_to=img_path_webp, null=True, blank=True
+    )
+    image150_webp = models.ImageField(
+        max_length=255, upload_to=img_path_webp_tmb, null=True, blank=True
+    )
+    image245_webp = models.ImageField(
+        max_length=255, upload_to=img_path_webp_tmb, null=True, blank=True
+    )
+    image500_webp = models.ImageField(
+        max_length=255, upload_to=img_path_webp_tmb, null=True, blank=True
+    )
+    image800_webp = models.ImageField(
+        max_length=255, upload_to=img_path_webp_tmb, null=True, blank=True
+    )
+    # End webp section
     img150 = models.ImageField(
         max_length=255, upload_to=img_path_tmb, null=True, blank=True
     )
@@ -220,19 +264,87 @@ class ProductImage(models.Model):
                 None,
             )
 
-        # Rectangle 150x100
-        img150 = ImageOps.fit(
-            im, size[0], method=method, bleed=0.0, centering=(0.5, 0.5)
+        # Saving image into webp 1280x861
+        image_webp = ImageOps.fit(
+            im, size[4], method=method, bleed=0.0, centering=(0.5, 0.5)
         )
         output = io.BytesIO()
-        img150.save(output, format="JPEG", quality=90)
+        image_webp.save(output, format="WEBP", quality=self.quality_webp)
         output.seek(0)
 
-        self.img150 = InMemoryUploadedFile(
+        self.image_webp = InMemoryUploadedFile(
             output,
             "ImageField",
             f"{self.image.name}",
-            "image/jpeg",
+            "image/webp",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
+        # Saving image into webp 150
+        image150_webp = ImageOps.fit(
+            im, size[0], method=method, bleed=0.0, centering=(0.5, 0.5)
+        )
+        output = io.BytesIO()
+        image150_webp.save(output, format="WEBP", quality=self.quality_webp)
+        output.seek(0)
+
+        self.image150_webp = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/webp",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
+        # Saving image into webp 245
+        image245_webp = ImageOps.fit(
+            im, size[1], method=method, bleed=0.0, centering=(0.5, 0.5)
+        )
+        output = io.BytesIO()
+        image245_webp.save(output, format="WEBP", quality=self.quality_webp)
+        output.seek(0)
+
+        self.image245_webp = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/webp",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
+        # Saving image into webp 500
+        image500_webp = ImageOps.fit(
+            im, size[2], method=method, bleed=0.0, centering=(0.5, 0.5)
+        )
+        output = io.BytesIO()
+        image500_webp.save(output, format="WEBP", quality=self.quality_webp)
+        output.seek(0)
+
+        self.image500_webp = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/webp",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
+        # Saving image into webp 500
+        image800_webp = ImageOps.fit(
+            im, size[3], method=method, bleed=0.0, centering=(0.5, 0.5)
+        )
+        output = io.BytesIO()
+        image800_webp.save(output, format="WEBP", quality=self.quality_webp)
+        output.seek(0)
+
+        self.image800_webp = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/webp",
             output.getbuffer().nbytes,
             "utf-8",
             None,
@@ -370,3 +482,49 @@ class ProductImage(models.Model):
 
 
 ###############################################################################
+@receiver(models.signals.post_delete, sender=ProductImage)
+def remove_images(sender, instance, **kwargs):
+    """Deletes file from filesystem when corresponding MedaFile object is deleted"""
+    print(instance.image.path)
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
+    if instance.image_webp:
+        if os.path.isfile(instance.image_webp.path):
+            os.remove(instance.image_webp.path)
+    if instance.image150_webp:
+        if os.path.isfile(instance.image150_webp.path):
+            os.remove(instance.image150_webp.path)
+    if instance.image245_webp:
+        if os.path.isfile(instance.image245_webp.path):
+            os.remove(instance.image245_webp.path)
+    if instance.image500_webp:
+        if os.path.isfile(instance.image500_webp.path):
+            os.remove(instance.image500_webp.path)
+    if instance.image800_webp:
+        if os.path.isfile(instance.image800_webp.path):
+            os.remove(instance.image800_webp.path)
+    if instance.img150:
+        if os.path.isfile(instance.img150.path):
+            os.remove(instance.img150.path)
+    if instance.img150x150:
+        if os.path.isfile(instance.img150x150.path):
+            os.remove(instance.img150x150.path)
+    if instance.img245:
+        if os.path.isfile(instance.img245.path):
+            os.remove(instance.img245.path)
+    if instance.img245x245:
+        if os.path.isfile(instance.img245x245.path):
+            os.remove(instance.img245x245.path)
+    if instance.img500:
+        if os.path.isfile(instance.img500.path):
+            os.remove(instance.img500.path)
+    if instance.img500x500:
+        if os.path.isfile(instance.img500x500.path):
+            os.remove(instance.img500x500.path)
+    if instance.img800:
+        if os.path.isfile(instance.img800.path):
+            os.remove(instance.img800.path)
+    if instance.img800x800:
+        if os.path.isfile(instance.img800x800.path):
+            os.remove(instance.img800x800.path)
