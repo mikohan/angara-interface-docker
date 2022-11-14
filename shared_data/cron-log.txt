@@ -16,3 +16,8 @@ Price modification time: 28.09.2022 13:09
 Started syncing products with 1C
 type object 'datetime.datetime' has no attribute 'datetime'
 End time 03:33:04
+Start time: 03:37:04
+Price modification time: 28.09.2022 13:09
+Started syncing products with 1C
+an integer is required (got type str)
+End time 03:37:05
