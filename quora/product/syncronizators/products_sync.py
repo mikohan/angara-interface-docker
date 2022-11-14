@@ -65,11 +65,8 @@ def sync_products():
 
         file_mod_timestamp = os.path.getmtime(settings.ONE_C_PRICE)
 
-        file_dt = datetime.utcfromtimestamp(file_mod_timestamp).strftime(
-            "%d.%m.%Y %H:%M"
-        )
-        dt_object = datetime.fromtimestamp(file_dt)
-        f_date = dt_object.strftime("%d.%m.%Y %H:%M")
+        file_dt = datetime.fromtimestamp(file_mod_timestamp)
+        f_date = file_dt.strftime("%d.%m.%Y %H:%M")
 
         reader = csv.reader(file, delimiter=";")
         csv_list = list(reader)

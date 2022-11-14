@@ -21,3 +21,22 @@ Price modification time: 28.09.2022 13:09
 Started syncing products with 1C
 an integer is required (got type str)
 End time 03:37:05
+Start time: 03:44:05
+Price modification time: 28.09.2022 13:09
+Started syncing products with 1C
+'float' object has no attribute 'strftime'
+End time 03:44:06
+Start time: 03:47:06
+Price modification time: 28.09.2022 13:09
+Started syncing products with 1C
+an integer is required (got type datetime.datetime)
+End time 03:47:06
+Start time: 03:49:02
+Price modification time: 28.09.2022 13:09
+Started syncing products with 1C
+Ends syncing products with 1C
+Starting making file for elastic
+Total products in base: 10
+Files are not the same
+Ends making file for elastic
+End time 03:50:56
