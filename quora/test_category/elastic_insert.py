@@ -97,7 +97,7 @@ def getProducts():
     uniq_lst = []
     domain = settings.SITE_URL
 
-    products = Product.objects.all().distinct()
+    products = Product.objects.all().distinct()[:10]
     ret_index = ""
     not_returned = [
         {

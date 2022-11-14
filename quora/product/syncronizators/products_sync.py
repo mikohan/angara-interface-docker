@@ -2,7 +2,7 @@ from datetime import datetime
 from django.conf import settings
 from product.models import Product, CarModel, Stock, Store
 from brands.models import BrandsDict
-import csv
+import csv, os
 import hashlib
 from test_category.elastic_insert import make_file_for_elastic_cron
 from test_category.elastic_stuff2 import do_insert as elastic_insert
@@ -62,6 +62,15 @@ def sync_products():
     csv_ids = []
 
     with open(settings.ONE_C_PRICE, encoding="utf-8") as file:
+
+        file_mod_timestamp = os.path.getmtime(settings.ONE_C_PRICE)
+
+        file_dt = datetime.utcfromtimestamp(file_mod_timestamp).strftime(
+            "%d.%m.%Y %H:%M"
+        )
+        dt_object = datetime.fromtimestamp(file_dt)
+        f_date = dt_object.strftime("%d.%m.%Y %H:%M")
+
         reader = csv.reader(file, delimiter=";")
         csv_list = list(reader)
 
@@ -155,7 +164,7 @@ def sync_products():
 
     end = datetime.now()
     t = end - start
-    return f"Synced {prod_count} products, in {t}"
+    return f"Synced {prod_count} products, in {t}", f"File data {f_date}"
 
 
 # def do_all_sync_products():
@@ -167,8 +176,8 @@ def sync_products():
 
 def do_all_sync_products():
     print(f"{bcolors.OKBLUE}Started syncing products with 1C{bcolors.ENDC}")
-    # message_sync_prod = sync_products()
-    # print(message_sync_prod)
+    message_sync_prod, file_date = sync_products()
+    print(message_sync_prod, f"File date is: {file_date}")
     print(f"{bcolors.OKBLUE}Ends syncing products with 1C{bcolors.ENDC}")
     print(f"{bcolors.WARNING}Starting making file for elastic{bcolors.ENDC}")
     # message_el_cron = make_file_for_elastic_cron()
@@ -190,7 +199,7 @@ def do_all_sync_products_cron():
         "X-MSMail-Priority": "High",
     }
     try:
-        message_sync_prod = sync_products()
+        message_sync_prod, file_date = sync_products()
         print(f"Ends syncing products with 1C")
         print(f"Starting making file for elastic")
         message_el_cron = make_file_for_elastic_cron()
@@ -204,6 +213,7 @@ def do_all_sync_products_cron():
             "sync_products": message_sync_prod,
             "elastic_make_file": message_el_cron,
             "insert_elastic": message_el,
+            "file_date": file_date,
         }
 
         html = render_to_string("emails/elastic_insert.html", message)

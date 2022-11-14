@@ -461,6 +461,7 @@ const app = new Vue({
       const endpoint = `${ApplicationMainHost}/api/product/images/?product_id=${id}`;
       let response = await apiService(endpoint);
       this.productImages = response.results;
+      console.log(response.results)
     },
     async uploadImage() {
       this.imageLoading = true;

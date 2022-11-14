@@ -16,7 +16,7 @@ class Command(BaseCommand):
         file_mod_timestamp = os.path.getmtime(settings.ONE_C_PRICE)
 
         file_dt = datetime.datetime.utcfromtimestamp(file_mod_timestamp).strftime(
-            "%d.%m.%Y %H:%m"
+            "%d.%m.%Y %H:%M"
         )
         self.stdout.write(f"{bcolors.HEADER}Start time: {time}{bcolors.ENDC}")
         self.stdout.write(f"Price modification time: {file_dt}")

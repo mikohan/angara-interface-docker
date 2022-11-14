@@ -5,3 +5,14 @@ Ends syncing products with 1C
 Starting making file for elastic
 Ends making file for elastic
 End time 14:06:05
+Error response from daemon: Container 7c3a7e725415c76f91da84bd85f12f3e660f2506b59ff3b7691390fc874a5c06 is not running
+Start time: 03:25:04
+Price modification time: 28.09.2022 13:09
+Started syncing products with 1C
+'_io.TextIOWrapper' object has no attribute 'os'
+End time 03:25:05
+Start time: 03:33:03
+Price modification time: 28.09.2022 13:09
+Started syncing products with 1C
+type object 'datetime.datetime' has no attribute 'datetime'
+End time 03:33:04
