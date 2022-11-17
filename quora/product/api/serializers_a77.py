@@ -121,7 +121,6 @@ class ProductA77ImageSerializer(serializers.ModelSerializer):
 
     def get_img150(self, object):
 
-        print(object.image_webp)
         return settings.SITE_URL + object.img150.url
 
     def get_img245(self, object):
