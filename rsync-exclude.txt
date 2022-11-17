@@ -4,3 +4,8 @@ shared_data
 product_notebook*
 docker-compose.yml
 .git
+media
+
+*.pyc
+venv
+node_modules
