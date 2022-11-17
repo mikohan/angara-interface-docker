@@ -61,7 +61,18 @@ class ProductA77OldImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OldProductImage
-        fields = ("img150", "img245", "img500", "img800", "image")
+        fields = (
+            "img150",
+            "img245",
+            "img500",
+            "img800",
+            "image",
+            "image_webp",
+            "image150_webp",
+            "image245_webp",
+            "image500_webp",
+            "image800_webp",
+        )
 
 
 class ProductA77ImageSerializer(serializers.ModelSerializer):

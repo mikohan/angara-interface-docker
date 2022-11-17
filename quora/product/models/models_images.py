@@ -5,6 +5,7 @@ import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.images import ImageFile
 from django.dispatch import receiver
+import pathlib
 
 
 # Custom path to upload images in webp
@@ -57,6 +58,11 @@ def img_path_old(instance, filename, *args, **kwargs):
     return path
 
 
+def img_path_old_webp(instance, filename, *args, **kwargs):
+    path = os.path.join("old_parts", str(instance.product.one_c_id), filename + ".webp")
+    return path
+
+
 class OldProductImage(models.Model):
     """Class keep old images by one c id"""
 
@@ -66,6 +72,19 @@ class OldProductImage(models.Model):
     img500 = models.ImageField(upload_to=img_path_old, null=True, blank=True)
     img800 = models.ImageField(upload_to=img_path_old, null=True, blank=True)
     one_c_id = models.IntegerField(null=True, blank=True)
+    image_webp = models.ImageField(upload_to=img_path_old_webp, null=True, blank=True)
+    image150_webp = models.ImageField(
+        upload_to=img_path_old_webp, null=True, blank=True
+    )
+    image245_webp = models.ImageField(
+        upload_to=img_path_old_webp, null=True, blank=True
+    )
+    image500_webp = models.ImageField(
+        upload_to=img_path_old_webp, null=True, blank=True
+    )
+    image800_webp = models.ImageField(
+        upload_to=img_path_old_webp, null=True, blank=True
+    )
 
     product = models.ForeignKey(
         "Product",
@@ -129,9 +148,9 @@ class OldProductImage(models.Model):
             im, (150, 100), method=method, bleed=0.0, centering=(0.5, 0.4)
         )
         output = io.BytesIO()
-        img150.save(output, format="webp", optimize=True, quality=70)
+        image150_webp.save(output, format="webp", optimize=True, quality=70)
         output.seek(0)
-        self.img150 = InMemoryUploadedFile(
+        self.image150_webp = InMemoryUploadedFile(
             output,
             "ImageField",
             f"{self.image.name}",
@@ -145,9 +164,9 @@ class OldProductImage(models.Model):
             im, (245, 134), method=method, bleed=0.0, centering=(0.5, 0.4)
         )
         output = io.BytesIO()
-        img150.save(output, format="webp", optimize=True, quality=70)
+        image245_webp.save(output, format="webp", optimize=True, quality=70)
         output.seek(0)
-        self.img150 = InMemoryUploadedFile(
+        self.image245_webp = InMemoryUploadedFile(
             output,
             "ImageField",
             f"{self.image.name}",
@@ -161,9 +180,9 @@ class OldProductImage(models.Model):
             im, (500, 333), method=method, bleed=0.0, centering=(0.5, 0.4)
         )
         output = io.BytesIO()
-        img150.save(output, format="webp", optimize=True, quality=70)
+        image500_webp.save(output, format="webp", optimize=True, quality=70)
         output.seek(0)
-        self.img150 = InMemoryUploadedFile(
+        self.image500_webp = InMemoryUploadedFile(
             output,
             "ImageField",
             f"{self.image.name}",
@@ -176,9 +195,9 @@ class OldProductImage(models.Model):
             im, (900, 600), method=method, bleed=0.0, centering=(0.5, 0.4)
         )
         output = io.BytesIO()
-        img150.save(output, format="webp", optimize=True, quality=70)
+        image800_webp.save(output, format="webp", optimize=True, quality=70)
         output.seek(0)
-        self.img150 = InMemoryUploadedFile(
+        self.image800_webp = InMemoryUploadedFile(
             output,
             "ImageField",
             f"{self.image.name}",
