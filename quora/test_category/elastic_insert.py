@@ -97,7 +97,7 @@ def getProducts():
     uniq_lst = []
     domain = settings.SITE_URL
 
-    products = Product.objects.all().distinct()
+    products = Product.objects.all().distinct()[:10]
     ret_index = ""
     not_returned = [
         {
@@ -173,6 +173,11 @@ def getProducts():
                     "img245x245": domain + chk_img(x.img245x245),
                     "img500x500": domain + chk_img(x.img500x500),
                     "img800x800": domain + chk_img(x.img800x800),
+                    "image_webp": domain + chk_img(x.image_webp),
+                    "image150_webp": domain + chk_img(x.image150_webp),
+                    "image245_webp": domain + chk_img(x.image245_webp),
+                    "image500_webp": domain + chk_img(x.image500_webp),
+                    "image800_webp": domain + chk_img(x.image800_webp),
                     "main": x.main,
                 }
                 for x in prod.images
