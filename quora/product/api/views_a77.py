@@ -79,13 +79,11 @@ class GetProductBySlugView(generics.RetrieveAPIView):
     Class retreive single product by slug
 
     """
+
     lookup_field = "slug"
     serializer_class = ProductA77Serializer
     permission_classes = [AllowAny]
     queryset = Product.objects.all()
-
-
-
 
 
 class GetProductsByCatNumbers(APIView):
@@ -97,7 +95,6 @@ class GetProductsByCatNumbers(APIView):
         """Getting array and serilizing qyeryset"""
         numbers = request.GET.getlist("numbers")
         numbers = set([x for x in numbers if x])
-        print(numbers)
 
         qs = Product.objects.filter(cat_number__in=numbers).distinct()
         serializer = ProductA77Serializer(qs, many=True)

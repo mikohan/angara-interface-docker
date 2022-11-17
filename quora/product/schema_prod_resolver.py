@@ -4,7 +4,6 @@ from product.models import Product
 def resolve_poduct(self, info, slug):
 
     prod = Product.objects.get(slug=slug)
-    print(prod)
     cats = [
         {
             "id": x.id,

@@ -12,7 +12,6 @@ class CategoriesSerializerfFlat(serializers.ModelSerializer):
     def get_parent(self, obj):
         if obj.parent.id == 1:
             return None
-        print(obj.parent.id)
         return Category.objects.get(id=obj.parent.id)
 
     class Meta:
@@ -348,7 +347,6 @@ class ProductA77Serializer(serializers.ModelSerializer):
         # pattern = object.name.split()
         qs = None
         pattern = object.name.split()
-        print(pattern[0])
 
         try:
             car_model_ids = [x.id for x in object.car_model.all()]

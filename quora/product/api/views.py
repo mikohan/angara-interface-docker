@@ -98,7 +98,6 @@ class ProductAttributeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         product_id = self.request.query_params.get("product_id", None)
 
-        print(product_id)
         if product_id:
             queryset = self.model.objects.filter(product=product_id).distinct()
 
@@ -408,17 +407,7 @@ class SelectAllProductsVasyaView(APIView, LimitOffsetPagination):
         filtered = products.filter(product_stock__quantity__gt=0).distinct()
 
         # filtered_stock = filtered.filter(product_stock__price__isnull=False)
-        print("Products with photo:", filtered.count())
         # result = self.paginate_queryset(filtered, request, view=self)
         serializer = MerchangSerializer(filtered, many=True)
         self.check_permissions(request)
         return Response(serializer.data)
-
-
-
-
-
-
-
-
-

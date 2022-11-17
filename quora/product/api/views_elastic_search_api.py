@@ -209,7 +209,6 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
 
             subitem = {"bool": {"should": [x for x in inside]}}
             boolShould.append(subitem)
-            pp.pprint(subitem)
 
     tmp = {
         "from": page_from,

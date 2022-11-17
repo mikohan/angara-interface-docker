@@ -602,7 +602,6 @@ class ProductImage(models.Model):
 @receiver(models.signals.post_delete, sender=ProductImage)
 def remove_images(sender, instance, **kwargs):
     """Deletes file from filesystem when corresponding MedaFile object is deleted"""
-    print(instance.image.path)
     if instance.image:
         if os.path.isfile(instance.image.path):
             os.remove(instance.image.path)

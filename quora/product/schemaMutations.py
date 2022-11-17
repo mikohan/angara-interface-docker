@@ -40,7 +40,6 @@ class createAutoUserMutation(Mutation):
     user = Field(AutoUserType)
 
     def mutate(root, info, userId):
-        print(userId)
         user, ok = AutoUser.objects.update_or_create(userId=userId)
 
         return createAutoUserMutation(user=user)

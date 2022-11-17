@@ -43,8 +43,6 @@ def make_query(request, aggs, aggs_size, category=False, page_from=1, page_size=
     priceMax = 10000000
     sort_price = request.GET.get("sort_price") or "desc"
 
-    print(request.GET.getlist("brand"))
-
     if price:
         spl = price.split("-")
         priceMin = spl[0]

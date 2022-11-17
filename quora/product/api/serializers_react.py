@@ -114,6 +114,5 @@ class RedGetSingleProductSerializer(serializers.ModelSerializer):
         depth = 1  # Dont change it All may craches
 
     def get_images(self, obj):
-        print(self.context)
         lst = [("http://localhost:8000" + x.image.url) for x in obj.images]
         return lst
