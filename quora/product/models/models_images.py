@@ -106,6 +106,87 @@ class OldProductImage(models.Model):
             "utf-8",
             None,
         )
+        ## Webp starts here
+
+        image_webp = ImageOps.fit(
+            im, (1920, 1280), method=method, bleed=0.0, centering=(0.5, 0.5)
+        )
+        output = io.BytesIO()
+        image_webp.save(output, format="WEBP", quality=70)
+        output.seek(0)
+
+        self.image_webp = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/webp",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
+
+        image150_webp = ImageOps.fit(
+            im, (150, 100), method=method, bleed=0.0, centering=(0.5, 0.4)
+        )
+        output = io.BytesIO()
+        img150.save(output, format="webp", optimize=True, quality=70)
+        output.seek(0)
+        self.img150 = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/webp",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
+
+        image245_webp = ImageOps.fit(
+            im, (245, 134), method=method, bleed=0.0, centering=(0.5, 0.4)
+        )
+        output = io.BytesIO()
+        img150.save(output, format="webp", optimize=True, quality=70)
+        output.seek(0)
+        self.img150 = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/webp",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
+
+        image500_webp = ImageOps.fit(
+            im, (500, 333), method=method, bleed=0.0, centering=(0.5, 0.4)
+        )
+        output = io.BytesIO()
+        img150.save(output, format="webp", optimize=True, quality=70)
+        output.seek(0)
+        self.img150 = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/webp",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
+        image800_webp = ImageOps.fit(
+            im, (900, 600), method=method, bleed=0.0, centering=(0.5, 0.4)
+        )
+        output = io.BytesIO()
+        img150.save(output, format="webp", optimize=True, quality=70)
+        output.seek(0)
+        self.img150 = InMemoryUploadedFile(
+            output,
+            "ImageField",
+            f"{self.image.name}",
+            "image/webp",
+            output.getbuffer().nbytes,
+            "utf-8",
+            None,
+        )
 
         img150 = ImageOps.fit(
             im, (150, 100), method=method, bleed=0.0, centering=(0.5, 0.4)
