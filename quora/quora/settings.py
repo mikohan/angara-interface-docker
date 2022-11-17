@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
+    "django_unused_media",
     # "allauth",
     # "allauth.account",
     # "allauth.socialaccount",
