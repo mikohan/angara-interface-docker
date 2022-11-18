@@ -39,7 +39,6 @@ def similar(request):
                                 "match": {
                                     "name": {
                                         "query": query_array[0],
-                                        "analyzer": "rebuilt_russian",
                                         "fuzziness": 1,
                                         "operator": "and",
                                     }
@@ -152,7 +151,6 @@ def byTag(request):
                                 "match": {
                                     "name": {
                                         "query": q,
-                                        "analyzer": "rebuilt_russian",
                                         "fuzziness": "auto",
                                         "operator": "or",
                                     }
