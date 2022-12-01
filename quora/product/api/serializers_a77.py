@@ -37,11 +37,46 @@ class CategoriesSerializerfFlat(serializers.ModelSerializer):
 class ProductA77OldImageSerializer(serializers.ModelSerializer):
     """Trying to make fill url"""
 
+    image_webp = serializers.SerializerMethodField()
+    image150_webp = serializers.SerializerMethodField()
+    image245_webp = serializers.SerializerMethodField()
+    image500_webp = serializers.SerializerMethodField()
+    image800_webp = serializers.SerializerMethodField()
     img150 = serializers.SerializerMethodField()
     img245 = serializers.SerializerMethodField()
     img500 = serializers.SerializerMethodField()
     img800 = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
+
+    def get_image_webp(self, object):
+        try:
+            return settings.SITE_URL + object.image_webp.url
+        except:
+            return None
+
+    def get_image150_webp(self, object):
+        try:
+            return settings.SITE_URL + object.image150_webp.url
+        except:
+            return None
+
+    def get_image245_webp(self, object):
+        try:
+            return settings.SITE_URL + object.image245_webp.url
+        except:
+            return None
+
+    def get_image500_webp(self, object):
+        try:
+            return settings.SITE_URL + object.image500_webp.url
+        except:
+            return None
+
+    def get_image800_webp(self, object):
+        try:
+            return settings.SITE_URL + object.image800_webp.url
+        except:
+            return None
 
     def get_img150(self, object):
         return settings.SITE_URL + object.img150.url
@@ -339,7 +374,8 @@ class ProductA77Serializer(serializers.ModelSerializer):
     def get_analogs(self, object):
         qs = Product.objects.filter(
             Q(cat_number=object.cat_number) | Q(oem_number=object.cat_number)
-        )
+        )[:24]
+
         return AnalogProductA77Serializer(qs, many=True).data
 
     def get_related(self, object):
@@ -359,7 +395,7 @@ class ProductA77Serializer(serializers.ModelSerializer):
             ).order_by("?")[:20]
         except:
             try:
-                qs = Product.objects.filter(name__icontains=pattern[0])
+                qs = Product.objects.filter(name__icontains=pattern[0])[:20]
             except:
                 qs = Product.objects.none()
 
